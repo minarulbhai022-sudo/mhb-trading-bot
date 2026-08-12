@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- FORCE DEPLOYMENT VERSION 4.0 -->
+<!-- FORCE DEPLOYMENT VERSION 4.1 - UNLIMITED PREMIUM -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -355,7 +355,7 @@
         document.getElementById('user-badge').innerText = 'PREMIUM VIP ACTIVE';
         document.getElementById('user-badge').style.borderColor = '#f59e0b';
         document.getElementById('user-badge').style.color = '#f59e0b';
-        document.getElementById('usage-text').innerText = `${signalsUsed}/5 Premium Signals Used today`;
+        document.getElementById('usage-text').innerText = `Unlimited Premium Signals Enabled`;
       } else {
         alert('Invalid Key! Try: SF-PRO-9821');
       }
@@ -367,9 +367,11 @@
     }
 
     function generateSignal() {
-      const maxLimit = isPremium ? 5 : 1;
+      // PREMIUM UNLIMITED
+      const maxLimit = isPremium ? 999999 : 1;
+      
       if (signalsUsed >= maxLimit) {
-        alert(isPremium ? 'Daily limit reached (5/5 Used)' : 'Free limit reached (1/1 Used). Login for Premium!');
+        alert(isPremium ? 'Daily limit reached' : 'Free limit reached (1/1 Used). Login for Premium!');
         return;
       }
 
@@ -378,7 +380,12 @@
       setTimeout(() => {
         document.getElementById('wait-modal').style.display = 'none';
         signalsUsed++;
-        document.getElementById('usage-text').innerText = `${signalsUsed}/${maxLimit} ${isPremium ? 'Premium' : 'Free'} Signals Used today`;
+        
+        if (!isPremium) {
+            document.getElementById('usage-text').innerText = `${signalsUsed}/1 Free Signals Used today`;
+        } else {
+            document.getElementById('usage-text').innerText = `Unlimited Premium Signals Enabled`;
+        }
 
         const isCall = Math.random() > 0.5;
         const now = new Date();
@@ -417,4 +424,5 @@
     }
   </script>
 </body>
-</html>
+  </html>
+            
