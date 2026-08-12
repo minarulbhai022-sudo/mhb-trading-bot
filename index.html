@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- FORCE DEPLOYMENT VERSION 4.4 - FIXED CLICKABLE DROPDOWN -->
+<!-- FORCE DEPLOYMENT VERSION 4.5 - CUSTOM DARK DROPDOWN MODAL -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -148,8 +148,8 @@
     .m-btn.active { background: var(--purple-gradient); color: white; }
     .lbl { color: var(--text-muted); font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; display: block; }
 
-    /* RELIABLE CLICKABLE DROPDOWN */
-    .select-card {
+    /* CUSTOM DARK TRIGGER BUTTON */
+    .custom-select-trigger {
       width: 100%;
       background: #0d0f1a;
       border: 1px solid rgba(139, 92, 246, 0.5);
@@ -158,15 +158,11 @@
       color: white;
       font-weight: 700;
       font-size: 0.95rem;
-      outline: none;
       margin-bottom: 18px;
       cursor: pointer;
-    }
-    .select-card option {
-      background: #0d0f1d;
-      color: #ffffff;
-      padding: 12px;
-      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
@@ -176,7 +172,12 @@
     .popup-card { background: #0d0f19; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; width: 100%; max-width: 380px; padding: 25px; text-align: center; position: relative; }
     .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.3rem; cursor: pointer; }
 
-    /* SIGNAL MODAL SPECIFIC */
+    /* DARK ASSET SELECTOR LIST */
+    .asset-list-modal { display: flex; flex-direction: column; gap: 8px; max-height: 350px; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
+    .asset-item { background: #131726; border: 1px solid rgba(255, 255, 255, 0.05); padding: 12px 16px; border-radius: 12px; color: white; font-weight: 700; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+    .asset-item:active, .asset-item.selected { background: #7c3aed; border-color: #a78bfa; }
+
+    /* SIGNAL RESULT MODAL */
     .p-head { text-align: center; padding-bottom: 10px; }
     .p-check { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #8b5cf6; color: #a78bfa; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 1.2rem; }
     .p-trade-box { margin: 10px 0 15px 0; background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
@@ -237,7 +238,10 @@
         </div>
 
         <label class="lbl">ASSET</label>
-        <select class="select-card" id="asset-select"></select>
+        <div class="custom-select-trigger" onclick="openAssetModal()">
+          <span id="selected-asset-text">🪙 ADAUSD_otc</span>
+          <span style="color: #a78bfa; font-size: 0.8rem;">▼</span>
+        </div>
 
         <label class="lbl">TIMEFRAME</label>
         <div style="width: 100%; background: #0d0f1a; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 14px 16px; color: white; font-weight: 700; font-size: 0.95rem; margin-bottom: 18px;">
@@ -255,6 +259,17 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- ASSET SELECTION MODAL (DARK UI) -->
+  <div class="modal-overlay" id="asset-modal">
+    <div class="popup-card">
+      <button class="close-btn" onclick="closeAssetModal()">✕</button>
+      <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; text-align: left;">Select Asset</h3>
+      <div class="asset-list-modal" id="asset-list-container">
+        <!-- Dynamic Asset List -->
+      </div>
+    </div>
   </div>
 
   <!-- KEY MODAL -->
@@ -329,6 +344,8 @@
     const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
     let isPremium = false;
     let signalsUsed = 0;
+    let currentMarket = 'otc';
+    let selectedAsset = "🪙 ADAUSD_otc";
 
     const otcPairs = [
       { name: "ADAUSD_otc", flag: "🪙" },
@@ -350,26 +367,39 @@
       { name: "USD/CHF", flag: "🇺🇸🇨🇭" }
     ];
 
-    const assetSelect = document.getElementById('asset-select');
+    function renderAssetList() {
+      const container = document.getElementById('asset-list-container');
+      const pairs = currentMarket === 'otc' ? otcPairs : realPairs;
+      container.innerHTML = '';
 
-    function populateSelect(list) {
-      assetSelect.innerHTML = '';
-      list.forEach(item => {
-        const opt = document.createElement('option');
-        opt.value = `${item.flag} ${item.name}`;
-        opt.innerText = `${item.flag}  ${item.name}`;
-        assetSelect.appendChild(opt);
+      pairs.forEach(pair => {
+        const fullText = `${pair.flag} ${pair.name}`;
+        const item = document.createElement('div');
+        item.className = `asset-item ${selectedAsset === fullText ? 'selected' : ''}`;
+        item.innerHTML = `<span>${fullText}</span> <span>${selectedAsset === fullText ? '✓' : ''}</span>`;
+        item.onclick = () => {
+          selectedAsset = fullText;
+          document.getElementById('selected-asset-text').innerText = selectedAsset;
+          closeAssetModal();
+        };
+        container.appendChild(item);
       });
     }
 
-    populateSelect(otcPairs);
-
     function toggleMarket(type) {
+      currentMarket = type;
       document.getElementById('btn-otc').classList.toggle('active', type === 'otc');
       document.getElementById('btn-real').classList.toggle('active', type === 'real');
-      populateSelect(type === 'otc' ? otcPairs : realPairs);
+      selectedAsset = type === 'otc' ? "🪙 ADAUSD_otc" : "🇪🇺🇺🇸 EUR/USD";
+      document.getElementById('selected-asset-text').innerText = selectedAsset;
     }
 
+    function openAssetModal() {
+      renderAssetList();
+      document.getElementById('asset-modal').style.display = 'flex';
+    }
+
+    function closeAssetModal() { document.getElementById('asset-modal').style.display = 'none'; }
     function openKeyModal() { document.getElementById('key-modal').style.display = 'flex'; }
     function closeKeyModal() { document.getElementById('key-modal').style.display = 'none'; }
     function closeResultModal() { document.getElementById('result-modal').style.display = 'none'; }
@@ -428,36 +458,8 @@
         now.setMinutes(now.getMinutes() + 1);
 
         document.getElementById('res-time').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('res-asset').innerText = assetSelect.value;
+        document.getElementById('res-asset').innerText = selectedAsset;
         document.getElementById('res-price').innerText = (117 + Math.random()).toFixed(5);
 
         const dirBox = document.getElementById('res-dir-box');
-        const dirLbl = document.getElementById('res-dir-lbl');
-        const dirVal = document.getElementById('res-dir-val');
-        const arrow = document.getElementById('res-arrow');
-        const foot = document.getElementById('res-foot');
-
-        if (isCall) {
-          dirBox.className = 'p-dir-box call';
-          dirLbl.style.color = '#10b981';
-          dirVal.style.color = '#10b981';
-          dirVal.innerText = 'CALL';
-          arrow.innerText = '🔻';
-          arrow.className = 'p-arrow call';
-          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | Trend Strong Buy";
-        } else {
-          dirBox.className = 'p-dir-box';
-          dirLbl.style.color = '#ef4444';
-          dirVal.style.color = '#ef4444';
-          dirVal.innerText = 'PUT';
-          arrow.innerText = '🔻';
-          arrow.className = 'p-arrow';
-          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | Trend Strong Sell";
-        }
-
-        document.getElementById('result-modal').style.display = 'flex';
-      }, 2500);
-    }
-  </script>
-</body>
-</html>
+        const dirLbl = document.ge
