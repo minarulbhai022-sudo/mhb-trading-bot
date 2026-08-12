@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- FORCE DEPLOYMENT VERSION 4.2 - FLAGS & MORE PAIRS -->
+<!-- FORCE DEPLOYMENT VERSION 4.3 - CUSTOM DARK DROPDOWN WITH CIRCULAR FLAGS -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -149,8 +149,51 @@
     .m-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-weight: 800; font-size: 0.85rem; cursor: pointer; }
     .m-btn.active { background: var(--purple-gradient); color: white; }
     .lbl { color: var(--text-muted); font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; display: block; }
-    .select-card { width: 100%; background: #121524; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 12px 15px; color: white; font-weight: 700; outline: none; margin-bottom: 18px; font-size: 0.95rem; }
-    .select-card option { background: #0d0f19; color: white; padding: 10px; }
+
+    /* CUSTOM DARK DROPDOWN STYLE */
+    .custom-select-wrapper { position: relative; width: 100%; margin-bottom: 18px; }
+    .custom-select-trigger {
+      width: 100%;
+      background: #0d0f1a;
+      border: 1px solid rgba(139, 92, 246, 0.5);
+      border-radius: 14px;
+      padding: 14px 16px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+    .custom-select-options {
+      position: absolute;
+      top: 105%;
+      left: 0; right: 0;
+      background: #0d0f1d;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .custom-select-options.open { display: block; }
+    .custom-option {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #e2e8f0;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .custom-option:hover { background: rgba(124, 58, 237, 0.2); }
+    .flag-icon { display: inline-flex; align-items: center; font-size: 1.1rem; line-height: 1; }
+
     .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
 
     /* MODALS */
@@ -219,13 +262,20 @@
         </div>
 
         <label class="lbl">ASSET</label>
-        <select class="select-card" id="asset-select"></select>
+
+        <!-- CUSTOM DARK DROPDOWN WITH FLAGS -->
+        <div class="custom-select-wrapper">
+          <div class="custom-select-trigger" onclick="toggleDropdown()">
+            <span id="selected-asset-text"><span class="flag-icon">🇺🇸🇧🇩</span> USD/BDT (OTC)</span>
+            <i class="ph ph-caret-down" id="caret-icon"></i>
+          </div>
+          <div class="custom-select-options" id="asset-options"></div>
+        </div>
 
         <label class="lbl">TIMEFRAME</label>
-        <select class="select-card">
-          <option>⚡ 1 MINUTE</option>
-          <option>⏳ 5 MINUTES</option>
-        </select>
+        <div style="width: 100%; background: #0d0f1a; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 14px 16px; color: white; font-weight: 700; font-size: 0.95rem; margin-bottom: 18px;">
+          ⚡ 1 MINUTE
+        </div>
 
         <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin: 15px 0 10px 0;" id="usage-text">
           0/1 Free Signals Used today
@@ -312,19 +362,19 @@
     const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
     let isPremium = false;
     let signalsUsed = 0;
+    let currentSelectedAsset = "🇺🇸🇧🇩 USD/BDT (OTC)";
 
-    // ASSET PAIRS WITH FLAGS
+    // PAIRS WITH FLAGS MATCHING YOUR SCREENSHOT
     const otcPairs = [
+      { name: "ADAUSD_otc", flag: "🪙" },
+      { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
+      { name: "USD/CAD (OTC)", flag: "🇺🇸🇨🇦" },
+      { name: "USD/CHF (OTC)", flag: "🇺🇸🇨🇭" },
+      { name: "USD/COP (OTC)", flag: "🇺🇸🇨🇴" },
+      { name: "USD/DZD (OTC)", flag: "🇺🇸🇩🇿" },
       { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" },
       { name: "USD/INR (OTC)", flag: "🇺🇸🇮🇳" },
-      { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
-      { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" },
-      { name: "GBP/USD (OTC)", flag: "🇬🇧🇺🇸" },
-      { name: "AUD/CAD (OTC)", flag: "🇦🇺🇨🇦" },
-      { name: "USD/PKR (OTC)", flag: "🇺🇸🇵🇰" },
-      { name: "USD/EGP (OTC)", flag: "🇺🇸🇪🇬" },
-      { name: "USD/TRY (OTC)", flag: "🇺🇸🇹🇷" },
-      { name: "Crypto IDX (OTC)", flag: "🪙⚡" }
+      { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }
     ];
 
     const realPairs = [
@@ -332,29 +382,48 @@
       { name: "GBP/USD", flag: "🇬🇧🇺🇸" },
       { name: "USD/JPY", flag: "🇺🇸🇯🇵" },
       { name: "AUD/CAD", flag: "🇦🇺🇨🇦" },
-      { name: "EUR/GBP", flag: "🇪🇺🇬🇧" },
-      { name: "USD/CHF", flag: "🇺🇸🇨🇭" },
-      { name: "AUD/JPY", flag: "🇦🇺🇯🇵" },
-      { name: "NZD/USD", flag: "🇳🇿🇺🇸" }
+      { name: "USD/CHF", flag: "🇺🇸🇨🇭" }
     ];
 
-    const assetSelect = document.getElementById('asset-select');
+    const optionsContainer = document.getElementById('asset-options');
+    const selectedAssetTrigger = document.getElementById('selected-asset-text');
 
-    function populateSelect(list) {
-      assetSelect.innerHTML = '';
-      list.forEach(item => {
-        const opt = document.createElement('option');
-        opt.value = `${item.flag} ${item.name}`;
-        opt.innerText = `${item.flag}  ${item.name}`;
-        assetSelect.appendChild(opt);
+    function renderOptions(list) {
+      optionsContainer.innerHTML = '';
+      list.forEach((item, index) => {
+        const opt = document.createElement('div');
+        opt.className = 'custom-option';
+        opt.innerHTML = `<span class="flag-icon">${item.flag}</span> <span>${item.name}</span>`;
+        opt.onclick = () => {
+          currentSelectedAsset = `${item.flag} ${item.name}`;
+          selectedAssetTrigger.innerHTML = `<span class="flag-icon">${item.flag}</span> ${item.name}`;
+          toggleDropdown();
+        };
+        optionsContainer.appendChild(opt);
+
+        if (index === 0) {
+          currentSelectedAsset = `${item.flag} ${item.name}`;
+          selectedAssetTrigger.innerHTML = `<span class="flag-icon">${item.flag}</span> ${item.name}`;
+        }
       });
     }
-    populateSelect(otcPairs);
+
+    renderOptions(otcPairs);
+
+    function toggleDropdown() {
+      optionsContainer.classList.toggle('open');
+      const caret = document.getElementById('caret-icon');
+      if (optionsContainer.classList.contains('open')) {
+        caret.className = 'ph ph-caret-up';
+      } else {
+        caret.className = 'ph ph-caret-down';
+      }
+    }
 
     function toggleMarket(type) {
       document.getElementById('btn-otc').classList.toggle('active', type === 'otc');
       document.getElementById('btn-real').classList.toggle('active', type === 'real');
-      populateSelect(type === 'otc' ? otcPairs : realPairs);
+      renderOptions(type === 'otc' ? otcPairs : realPairs);
     }
 
     function openKeyModal() { document.getElementById('key-modal').style.display = 'flex'; }
@@ -405,47 +474,4 @@
         signalsUsed++;
         
         if (!isPremium) {
-            document.getElementById('usage-text').innerText = `${signalsUsed}/1 Free Signals Used today`;
-        } else {
-            document.getElementById('usage-text').innerText = `Unlimited Premium Signals Enabled`;
-        }
-
-        const isCall = Math.random() > 0.5;
-        const now = new Date();
-        now.setMinutes(now.getMinutes() + 1);
-
-        document.getElementById('res-time').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('res-asset').innerText = assetSelect.value;
-        document.getElementById('res-price').innerText = (117 + Math.random()).toFixed(5);
-
-        const dirBox = document.getElementById('res-dir-box');
-        const dirLbl = document.getElementById('res-dir-lbl');
-        const dirVal = document.getElementById('res-dir-val');
-        const arrow = document.getElementById('res-arrow');
-        const foot = document.getElementById('res-foot');
-
-        if (isCall) {
-          dirBox.className = 'p-dir-box call';
-          dirLbl.style.color = '#10b981';
-          dirVal.style.color = '#10b981';
-          dirVal.innerText = 'CALL';
-          arrow.innerText = '🔻';
-          arrow.className = 'p-arrow call';
-          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | Trend Strong Buy";
-        } else {
-          dirBox.className = 'p-dir-box';
-          dirLbl.style.color = '#ef4444';
-          dirVal.style.color = '#ef4444';
-          dirVal.innerText = 'PUT';
-          arrow.innerText = '🔻';
-          arrow.className = 'p-arrow';
-          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | Trend Strong Sell";
-        }
-
-        document.getElementById('result-modal').style.display = 'flex';
-      }, 2500);
-    }
-  </script>
-</body>
-  </html>
-                                    
+            document.getElementBy
