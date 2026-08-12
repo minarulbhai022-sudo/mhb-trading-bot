@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MHB HIGH-ACCURACY SIGNALS</title>
+  <title>MHB ADVANCED SIGNALS PRO</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
   <style>
     :root {
-      --bg-dark: #0b0d14;
-      --card-bg: #121524;
-      --purple-main: #8b5cf6;
+      --bg-dark: #07090e;
+      --card-bg: #10121d;
+      --panel-bg: #141724;
+      --purple-main: #9367ef;
       --purple-glow: #7c3aed;
       --green-glow: #10b981;
       --red-glow: #ef4444;
       --text-main: #ffffff;
-      --text-muted: #94a3b8;
+      --text-muted: #848da1;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
     body {
       background-color: var(--bg-dark);
@@ -34,130 +35,87 @@
 
     .dashboard {
       width: 100%;
-      max-width: 450px;
+      max-width: 420px;
       background: var(--card-bg);
-      border-radius: 24px;
-      padding: 20px;
-      border: 1px solid rgba(139, 92, 246, 0.2);
-      box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+      border-radius: 28px;
+      padding: 24px;
+      border: 1px solid rgba(147, 103, 239, 0.1);
+      box-shadow: 0 0 40px rgba(147, 103, 239, 0.1);
     }
 
+    /* --- AUTH PANEL (Screen 1) --- */
     .auth-card { text-align: center; padding: 20px 10px; }
     .auth-card h2 {
       font-size: 1.8rem;
+      font-weight: 800;
       margin-bottom: 8px;
-      background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+      background: linear-gradient(135deg, #a78bfa, var(--purple-main));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
-
+    .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
     .input-box {
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      background: rgba(15, 18, 30, 0.8);
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(147, 103, 239, 0.25);
+      background: #090b10;
       color: #fff;
       font-size: 1rem;
       text-align: center;
       letter-spacing: 2px;
       outline: none;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
-
     .btn-submit {
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 16px;
+      border-radius: 14px;
       border: none;
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      background: linear-gradient(135deg, var(--purple-glow), #6d28d9);
       color: white;
       font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
-      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 0 20px rgba(124, 58, 237, 0.35);
     }
 
-    .market-toggles {
-      display: flex;
-      gap: 10px;
-      background: rgba(15, 18, 30, 0.8);
-      padding: 6px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 20px;
-    }
+    /* --- MAIN PANEL (Screen 2) --- */
+    .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .status-text { color: var(--purple-main); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; }
+    .btn-logout { background: none; border: none; color: #f87171; cursor: pointer; font-size: 0.8rem; font-weight: 500; }
 
-    .market-toggle-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .market-toggle-btn.active {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      color: white;
-      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
-    }
-
-    .control-group { margin-bottom: 15px; }
+    .control-group { margin-bottom: 18px; }
     .control-group label {
       display: block;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
+    .select-wrapper { position: relative; }
     .select-wrapper select {
       width: 100%;
-      padding: 12px 15px;
-      border-radius: 12px;
-      background: rgba(15, 18, 30, 0.8);
-      border: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: var(--panel-bg);
+      border: 1px solid rgba(255, 255, 255, 0.04);
       color: white;
       font-weight: 600;
+      font-size: 0.95rem;
       outline: none;
     }
 
-    .strategy-section { margin: 20px 0; }
-    .strategy-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .strategy-toggles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-    .strategy-toggle {
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      background: rgba(139, 92, 246, 0.15);
-      border: 1px solid rgba(139, 92, 246, 0.4);
-      color: #a78bfa;
-      font-weight: 600;
-    }
-
-    .generate-section { text-align: center; margin-top: 25px; }
-    .limit-indicator { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
-
+    .generate-section { text-align: center; margin-top: 40px; }
     .btn-circle {
-      width: 180px;
-      height: 180px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(18,21,36,1) 70%);
-      border: 3px solid #7c3aed;
+      background: #0a0c12;
+      border: 3px solid var(--purple-main);
       color: white;
       display: flex;
       flex-direction: column;
@@ -165,50 +123,142 @@
       justify-content: center;
       margin: 0 auto;
       cursor: pointer;
-      box-shadow: 0 0 30px rgba(124, 58, 237, 0.4);
+      box-shadow: 0 0 35px rgba(147, 103, 239, 0.25);
       transition: all 0.3s ease;
     }
-
     .btn-circle:active { transform: scale(0.95); }
-    .btn-circle i { font-size: 2.2rem; color: #a78bfa; margin-bottom: 5px; }
-    .btn-circle span { font-weight: 800; font-size: 1rem; line-height: 1.2; }
+    .btn-circle i { font-size: 2.2rem; color: var(--purple-main); margin-bottom: 6px; }
+    .btn-circle span { font-weight: 800; font-size: 0.95rem; line-height: 1.2; text-transform: uppercase; }
 
+    /* --- SIGNAL POPUP (Screen 3 - DESIGN MATCH) --- */
     .modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(5px);
+      background: rgba(4, 5, 8, 0.95);
+      backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;
       z-index: 999;
+      padding: 15px;
     }
 
     .modal-card {
-      background: var(--card-bg);
-      border: 2px solid var(--purple-main);
-      padding: 25px;
-      border-radius: 20px;
+      background: #0a0c13;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 370px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Popup Header */
+    .p-header {
+      padding: 20px 24px;
       text-align: center;
-      width: 90%;
-      max-width: 360px;
-      box-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+      position: relative;
+    }
+    .btn-p-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.3rem; cursor: pointer;
+    }
+    .p-check-icon {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(147, 103, 239, 0.1);
+      border: 2px solid var(--purple-main);
+      color: var(--purple-main);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px auto;
+      font-size: 1.4rem;
+    }
+    .p-header h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 2px; }
+    .p-header h3 span:first-child { color: white; }
+    .p-header h3 span:last-child { color: var(--purple-main); }
+    .p-header p { color: var(--text-muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Trade Time Bar */
+    .p-time-bar {
+      background: var(--panel-bg);
+      padding: 14px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .p-time-lbl { display: flex; align-items: center; color: var(--text-muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .p-time-lbl i { margin-right: 8px; font-size: 1.1rem; }
+    .p-time-val { color: var(--purple-main); font-weight: 700; font-size: 1rem; }
+
+    /* Signal Area (With Chart Background) */
+    .p-signal-body {
+      padding: 30px 24px;
+      text-align: center;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjAwIDEwMCI+PHJlY3QgeD0iMTAiIHk9IjMwIiB3aWR0aD0iNCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2VmNDQ0NCIgZmlsbC1vcGFjaXR5PSIwLjE1Ii8+PHJlY3QgeD0iMTIiIHk9IjE1IiB3aWR0aD0iMCIgaGVpZ2h0PSI3MCIgZmlsbD0iI2VmNDQ0NCIgZmlsbC1vcGFjaXR5PSIwLjE1Ii8+PHJlY3QgeD0iMjUiIHk9IjEwIiB3aWR0aD0iNCIgaGVpZ2h0PSI1MCIgZmlsbD0iIzEwYjk4MSIgZmlsbC1vcGFjaXR5PSIwLjE1Ii8+PHJlY3QgeD0iMjciIHk9IjUiIHdpZHRoPSIwIiByZWN0PSIxMDAiIGZpbGw9IiMxMGI5ODEiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPjxyZWN0IHg9IjQwIiB5PSI0NSIgd2lkdGg9IjQiIGhlaWdodD0iMzAiIGZpbGw9IiNlZjQ0NDQiIGZpbGwtb3BhY2l0eT0iMC4xNSIvPjwvc3ZnPg==');
+      background-size: cover;
+      position: relative;
+    }
+    .p-direction-lbl { color: var(--red-glow); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .p-direction-val { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .p-direction-val.put { color: var(--red-glow); }
+    .p-direction-val.call { color: var(--green-glow); }
+    .p-arrow { font-size: 3.5rem; }
+    .p-arrow.put { color: var(--red-glow); filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.4)); }
+    .p-arrow.call { color: var(--green-glow); filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4)); transform: rotate(180deg); }
+
+    /* Grid Info */
+    .p-grid-info {
+      background: var(--panel-bg);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      display: grid; grid-template-columns: 1fr 1.2fr 1fr;
+    }
+    .p-grid-item {
+      padding: 16px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .p-grid-item:last-child { border-right: none; }
+    .p-item-icon { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 5px; }
+    .p-item-lbl { font-size: 0.6rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 3px; }
+    .p-item-val { font-weight: 800; font-size: 0.85rem; color: white; }
+
+    /* Analysed Bar */
+    .p-analysed-bar {
+      padding: 10px 24px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .p-analysed-bar i { margin-right: 5px; color: var(--purple-main); }
+    .p-analysed-bar span { color: white; font-weight: 600; }
+
+    /* Strategy Tags */
+    .p-strategy-tags {
+      padding: 12px 24px 20px 24px;
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .p-tag {
+      font-size: 0.6rem; font-weight: 700;
+      color: var(--purple-main); text-transform: uppercase;
+      padding: 5px 10px; border-radius: 20px;
+      background: rgba(147, 103, 239, 0.06);
+      border: 1px solid rgba(147, 103, 239, 0.15);
     }
 
-    .signal-res { font-size: 2.2rem; font-weight: 800; margin: 12px 0; }
-    .signal-res.call { color: var(--green-glow); }
-    .signal-res.put { color: var(--red-glow); }
-
-    .close-btn {
-      margin-top: 15px;
-      padding: 10px 25px;
-      border-radius: 10px;
-      border: none;
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
+    /* Key indicator bar (Bottom) */
+    .p-indicator-bar {
+      padding: 14px 24px;
+      background: #080a11;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
     }
+    .p-indicator-bar i { margin-right: 6px; color: var(--green-glow); }
+    .p-indicator-bar span { font-weight: 500; }
   </style>
 </head>
 <body>
@@ -217,31 +267,29 @@
 
     <!-- LOGIN SCREEN -->
     <div id="auth-panel" class="auth-card">
-      <h2>SignalForge Pro V2</h2>
-      <p>High Precision AI Engine</p>
-      <input type="text" id="license-key-input" class="input-box" placeholder="SF-PRO-XXXX" />
-      <button id="activate-btn" class="btn-submit">ACTIVATE LICENSE</button>
+      <h2>SignalForge VIP</h2>
+      <p>Enter License Key for AI Precision</p>
+      <input type="text" id="license-key-input" class="input-box" placeholder="SF-VIP-XXXX" />
+      <button id="activate-btn" class="btn-submit">UNLOCK ACCESS</button>
     </div>
 
     <!-- MAIN DASHBOARD -->
     <div id="main-panel" style="display: none;">
       
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <span style="color: #a78bfa; font-weight: 700; font-size: 0.9rem;">MHB VIP ACCURACY BOT</span>
-        <button id="logout-btn" style="background: none; border: none; color: var(--red-glow); cursor: pointer; font-size: 0.85rem;">Logout</button>
-      </div>
-
-      <!-- MARKET TOGGLE -->
-      <div class="market-toggles">
-        <button id="btn-otc" class="market-toggle-btn active" onclick="switchMarket('otc')">OTC MARKET</button>
-        <button id="btn-real" class="market-toggle-btn" onclick="switchMarket('real')">REAL MARKET</button>
+      <div class="dashboard-header">
+        <span class="status-text">MHB VIP ACCESS</span>
+        <button id="logout-btn" class="btn-logout">Logout</button>
       </div>
 
       <!-- CONTROLS -->
       <div class="control-group">
-        <label>SELECT ASSET PAIR</label>
+        <label>ASSET</label>
         <div class="select-wrapper">
-          <select id="asset-select"></select>
+          <select id="asset-select">
+            <option value="USDBDT-OTC">USDBDT-OTC</option>
+            <option value="EURUSD-OTC">EURUSD-OTC</option>
+            <option value="GBPUSD-OTC">GBPUSD-OTC</option>
+          </select>
         </div>
       </div>
 
@@ -249,30 +297,16 @@
         <label>TIMEFRAME</label>
         <div class="select-wrapper">
           <select id="timeframe">
-            <option value="1">1 MINUTE (VIP Turbo)</option>
-            <option value="5">5 MINUTES (Safe Trend)</option>
+            <option value="1-MINUTE SIGNAL">1 MINUTE (VIP TURBO)</option>
           </select>
-        </div>
-      </div>
-
-      <!-- HIGH ACCURACY STRATEGIES -->
-      <div class="strategy-section">
-        <p class="strategy-label">ACTIVE HIGH-ACCURACY ALGORITHMS</p>
-        <div class="strategy-toggles">
-          <span class="strategy-toggle">EMA (9,21) + RSI (14)</span>
-          <span class="strategy-toggle">Price Action S/R</span>
-          <span class="strategy-toggle">Bollinger Breakout</span>
-          <span class="strategy-toggle">OTC Volume Trend</span>
-          <span class="strategy-toggle">MACD Reversal</span>
         </div>
       </div>
 
       <!-- GENERATE BUTTON -->
       <div class="generate-section">
-        <div class="limit-indicator" id="limit-text">0/5 Signals Used Today</div>
         <button class="btn-circle" id="generate-btn">
           <i class="ph-fill ph-lightning"></i>
-          <span>GENERATE<br>VIP SIGNAL</span>
+          <span>GENERATE<br>SIGNAL</span>
         </button>
       </div>
 
@@ -280,69 +314,82 @@
 
   </div>
 
-  <!-- MODAL -->
+  <!-- MODAL / POPUP (NEW ADVANCED DESIGN) -->
   <div class="modal-overlay" id="signal-modal">
     <div class="modal-card">
-      <h3 id="modal-title">ANALYZING...</h3>
-      <div id="modal-body">
-        <p style="color: var(--text-muted); margin-top: 10px;">Checking multi-indicator convergence...</p>
+      <button class="btn-p-close" onclick="closeModal()">×</button>
+      
+      <div class="p-header">
+        <div class="p-check-icon"><i class="ph ph-check"></i></div>
+        <h3><span>SIGNAL</span> <span>GENERATED</span></h3>
+        <p>1-MINUTE SIGNAL</p>
       </div>
-      <button class="close-btn" id="close-modal" style="display:none;" onclick="closeModal()">CLOSE SIGNAL</button>
+
+      <div class="p-time-bar">
+        <div class="p-time-lbl"><i class="ph ph-calendar-blank"></i>TRADE TIME</div>
+        <div class="p-time-val" id="p-time">--:--</div>
+      </div>
+
+      <div class="p-signal-body">
+        <div class="p-direction-lbl">DIRECTION</div>
+        <div class="p-direction-val put" id="p-direction">PUT</div>
+        <div class="p-arrow put" id="p-arrow">▼</div>
+      </div>
+
+      <div class="p-grid-info">
+        <div class="p-grid-item">
+          <div class="p-item-icon"><i class="ph ph-target"></i></div>
+          <div class="p-item-lbl">ASSET</div>
+          <div class="p-item-val" id="p-asset">--</div>
+        </div>
+        <div class="p-grid-item">
+          <div class="p-item-icon"><i class="ph ph-currency-dollar"></i></div>
+          <div class="p-item-lbl">PRICE</div>
+          <div class="p-item-val" id="p-price">117.----</div>
+        </div>
+        <div class="p-grid-item">
+          <div class="p-item-icon"><i class="ph ph-chart-line-up"></i></div>
+          <div class="p-item-lbl">ACCURACY</div>
+          <div class="p-item-val">98% 🔥</div>
+        </div>
+      </div>
+
+      <div class="p-analysed-bar">
+        <i class="ph ph-chart-bar"></i>Analyzed <span>250 Candles</span>
+      </div>
+
+      <div class="p-strategy-tags">
+        <span class="p-tag">EMA RSI</span>
+        <span class="p-tag">PRICE ACTION</span>
+        <span class="p-tag">BOLLINGER</span>
+        <span class="p-tag">OTC TREND</span>
+        <span class="p-tag">SNR</span>
+      </div>
+
+      <div class="p-indicator-bar">
+        <i class="ph ph-info"></i>
+        <span>EMA+RSI Bearish | Price Action Bearish | OTC Trend...</span>
+      </div>
+
     </div>
   </div>
 
   <script>
-    const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
-    let usedCount = 0;
-
-    // Expanded Asset Lists
-    const otcAssets = [
-      "ADAUSD_otc", "AUDCAD-OTC", "AUDJPY-OTC", "AUDNZD-OTC", "AUDUSD-OTC",
-      "BRLUSD-OTC", "BTCUSD-OTC", "CADCHF-OTC", "CADJPY-OTC", "EURAUD-OTC",
-      "EURCAD-OTC", "EURCHF-OTC", "EURGBP-OTC", "EURJPY-OTC", "EURUSD-OTC",
-      "GBPAUD-OTC", "GBPCAD-OTC", "GBPJPY-OTC", "GBPUSD-OTC", "NZDUSD-OTC",
-      "USDBDT-OTC", "USDCAD-OTC", "USDCHF-OTC", "USDIDR-OTC", "USDINR-OTC",
-      "USDJPY-OTC", "USDPKR-OTC", "XAUUSD-OTC (Gold)"
-    ];
-
-    const realAssets = [
-      "EUR/USD (Real)", "GBP/USD (Real)", "USD/JPY (Real)", "USD/CHF (Real)",
-      "AUD/USD (Real)", "USD/CAD (Real)", "EUR/GBP (Real)", "EUR/JPY (Real)",
-      "GBP/JPY (Real)", "EUR/CAD (Real)", "AUD/JPY (Real)", "CAD/JPY (Real)"
-    ];
-
+    const validKeys = ["SF-PRO-9821"];
     const authPanel = document.getElementById('auth-panel');
     const mainPanel = document.getElementById('main-panel');
     const licenseInput = document.getElementById('license-key-input');
-    const activateBtn = document.getElementById('activate-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-    const assetSelect = document.getElementById('asset-select');
-    const generateBtn = document.getElementById('generate-btn');
-    const limitText = document.getElementById('limit-text');
     const modal = document.getElementById('signal-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalBody = document.getElementById('modal-body');
-    const closeModalBtn = document.getElementById('close-modal');
+    const generateBtn = document.getElementById('generate-btn');
+    const assetSelect = document.getElementById('asset-select');
 
-    function populateAssets(list) {
-      assetSelect.innerHTML = '';
-      list.forEach(asset => {
-        const opt = document.createElement('option');
-        opt.value = asset;
-        opt.innerText = asset;
-        assetSelect.appendChild(opt);
-      });
-    }
+    // UI elements to update in popup
+    const pTime = document.getElementById('p-time');
+    const pDirection = document.getElementById('p-direction');
+    const pArrow = document.getElementById('p-arrow');
+    const pAsset = document.getElementById('p-asset');
 
-    populateAssets(otcAssets);
-
-    function switchMarket(type) {
-      document.getElementById('btn-otc').classList.toggle('active', type === 'otc');
-      document.getElementById('btn-real').classList.toggle('active', type === 'real');
-      populateAssets(type === 'otc' ? otcAssets : realAssets);
-    }
-
-    activateBtn.addEventListener('click', () => {
+    document.getElementById('activate-btn').addEventListener('click', () => {
       if (validKeys.includes(licenseInput.value.trim())) {
         authPanel.style.display = 'none';
         mainPanel.style.display = 'block';
@@ -351,52 +398,46 @@
       }
     });
 
-    logoutBtn.addEventListener('click', () => {
+    document.getElementById('logout-btn').addEventListener('click', () => {
       mainPanel.style.display = 'none';
       authPanel.style.display = 'block';
       licenseInput.value = '';
     });
 
     generateBtn.addEventListener('click', () => {
-      if (usedCount >= 5) {
-        alert('Daily Limit Reached! (5/5 Used)');
-        return;
+      // Simulate analysis time (optional, matching previous interaction)
+      // Here we directly show the popup with data
+      
+      const isCall = Math.random() > 0.5;
+      const now = new Date();
+      now.setMinutes(now.getMinutes() + 1); // Signal is for next minute
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+      // Update popup content
+      pTime.innerText = timeStr;
+      pAsset.innerText = assetSelect.value;
+      
+      if(isCall) {
+        pDirection.innerText = 'CALL';
+        pDirection.className = 'p-direction-val call';
+        pArrow.innerText = '▲';
+        pArrow.className = 'p-arrow call';
+        document.querySelector('.p-direction-lbl').style.color = '#10b981';
+      } else {
+        pDirection.innerText = 'PUT';
+        pDirection.className = 'p-direction-val put';
+        pArrow.innerText = '▼';
+        pArrow.className = 'p-arrow put';
+        document.querySelector('.p-direction-lbl').style.color = '#ef4444';
       }
 
       modal.style.display = 'flex';
-      modalTitle.innerText = "HIGH-ACCURACY SCANNING...";
-      modalBody.innerHTML = `
-        <div style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">
-          <p>⚡ EMA + RSI Cross Confirming...</p>
-          <p>📊 Checking Price Action Levels...</p>
-        </div>
-      `;
-      closeModalBtn.style.display = 'none';
-
-      setTimeout(() => {
-        usedCount++;
-        limitText.innerText = `${usedCount}/5 Signals Used Today`;
-
-        const isCall = Math.random() > 0.48;
-        const signalType = isCall ? 'CALL (BUY ⬆)' : 'PUT (SELL ⬇)';
-        const colorClass = isCall ? 'call' : 'put';
-        // High Accuracy Score Range (92% to 98%)
-        const accuracyScore = (92 + Math.floor(Math.random() * 7)).toString();
-
-        modalTitle.innerText = "HIGH ACCURACY SIGNAL";
-        modalBody.innerHTML = `
-          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">ASSET: <b style="color:#fff">${assetSelect.value}</b></div>
-          <div class="signal-res ${colorClass}">${signalType}</div>
-          <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); padding: 8px; border-radius: 10px; color: #10B981; font-weight: 700; font-size: 0.9rem;">
-            🎯 CONFIDENCE / ACCURACY: ${accuracyScore}%
-          </div>
-        `;
-        closeModalBtn.style.display = 'inline-block';
-      }, 2500);
     });
 
-    function closeModal() { modal.style.display = 'none'; }
+    function closeModal() {
+      modal.style.display = 'none';
+    }
   </script>
 </body>
-                                                                     </html>
-            
+      </html>
+  
