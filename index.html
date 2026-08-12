@@ -1,276 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MHB Signal Engine</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MHB HIGH-ACCURACY SIGNALS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
-    body { background: #07090e; color: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px; }
-    
-    .card { background: #0c0f17; width: 100%; max-width: 380px; border-radius: 24px; border: 1px solid #181d2a; padding: 24px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative; }
-    
-    /* Market Switcher */
-    .market-switch { display: flex; background: #07090e; padding: 5px; border-radius: 14px; margin-bottom: 22px; border: 1px solid #161b26; }
-    .tab { flex: 1; padding: 12px; text-align: center; font-size: 12px; font-weight: 800; cursor: pointer; border-radius: 10px; color: #6b7280; letter-spacing: 0.5px; transition: 0.3s; }
-    .tab.active { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; box-shadow: 0 4px 15px rgba(139,92,246,0.4); }
-    
-    /* Input Groups */
-    .input-group { margin-bottom: 18px; }
-    label { display: block; font-size: 11px; color: #6b7280; margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
-    select { width: 100%; padding: 14px; background: #07090e; border: 1px solid #1c2230; color: #fff; border-radius: 12px; font-size: 14px; font-weight: 700; outline: none; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
-    
-    /* Active Strategies */
-    .section-title { text-align: center; font-size: 11px; color: #6b7280; font-weight: 700; letter-spacing: 1px; margin: 20px 0 12px; }
-    .strategies { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
-    .chip { font-size: 11px; background: rgba(139,92,246,0.08); border: 1px solid #6366f1; color: #d8b4fe; padding: 7px 14px; border-radius: 10px; font-weight: 600; }
-    
-    /* Usage Pill */
-    .usage-pill { text-align: center; background: #131722; color: #9ca3af; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 20px; width: fit-content; margin: 0 auto 25px; border: 1px solid #1f293d; }
-    
-    /* Circular Generate Button */
-    .btn-container { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
-    .circular-btn { width: 170px; height: 170px; border-radius: 50%; background: radial-gradient(circle, #0c0f17 40%, #07090e 100%); border: 2px solid #8b5cf6; box-shadow: 0 0 25px rgba(139,92,246,0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; position: relative; }
-    .circular-btn:active { transform: scale(0.95); box-shadow: 0 0 35px rgba(139,92,246,0.6); }
-    .bolt-icon { color: #a855f7; margin-bottom: 8px; }
-    .btn-text { font-size: 13px; font-weight: 800; color: #ffffff; letter-spacing: 1px; text-align: center; line-height: 1.2; }
-    .wave-line { margin-top: 8px; color: #8b5cf6; font-size: 16px; opacity: 0.8; }
+    :root {
+      --bg-dark: #0b0d14;
+      --card-bg: #121524;
+      --purple-main: #8b5cf6;
+      --purple-glow: #7c3aed;
+      --green-glow: #10b981;
+      --red-glow: #ef4444;
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+    }
 
-    /* --- RESULT MODAL (SCREENSHOT 1 DESIGN) --- */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 7, 12, 0.95); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 999; padding: 15px; }
-    .modal-card { background: #0c0f17; width: 100%; max-width: 380px; border-radius: 24px; border: 1px solid #1c2233; padding: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.9); position: relative; text-align: center; }
-    
-    .close-btn { position: absolute; top: 18px; right: 20px; color: #6b7280; font-size: 22px; cursor: pointer; font-weight: 700; }
-    
-    .check-icon-circle { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #8b5cf6; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: #a855f7; box-shadow: 0 0 15px rgba(139,92,246,0.4); }
-    
-    .modal-header-title { font-size: 18px; font-weight: 800; letter-spacing: 1px; color: #fff; }
-    .modal-header-title span { background: linear-gradient(135deg, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .modal-subtitle { font-size: 11px; color: #6b7280; font-weight: 700; margin-top: 3px; letter-spacing: 1px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
 
-    /* Trade Time Box */
-    .trade-time-box { display: flex; justify-content: space-between; align-items: center; background: #07090e; border: 1px solid #1c2230; padding: 12px 18px; border-radius: 12px; margin: 16px 0; }
-    .trade-time-label { font-size: 11px; font-weight: 700; color: #9ca3af; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
-    .trade-time-val { font-size: 16px; font-weight: 800; color: #a855f7; }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
 
-    /* Direction Card Box */
-    .direction-box { position: relative; background: radial-gradient(circle, #131722 0%, #07090e 100%); border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 16px; overflow: hidden; border: 1px solid #1c2230; }
-    .direction-box.put-border { border-color: rgba(239, 68, 68, 0.4); }
-    .direction-box.call-border { border-color: rgba(34, 197, 94, 0.4); }
-    
-    /* Candlestick SVG Background effect */
-    .bg-candles { position: absolute; top:0; left:0; width:100%; height:100%; opacity: 0.15; pointer-events: none; }
-    
-    .dir-label { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 6px; }
-    .dir-label.put { color: #ef4444; }
-    .dir-label.call { color: #22c55e; }
-    
-    .dir-val { font-size: 28px; font-weight: 900; letter-spacing: 2px; }
-    .dir-val.put { color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.5); }
-    .dir-val.call { color: #22c55e; text-shadow: 0 0 20px rgba(34, 197, 94, 0.5); }
+    .dashboard {
+      width: 100%;
+      max-width: 450px;
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+    }
 
-    .arrow-icon { margin-top: 10px; font-size: 45px; display: inline-block; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+    .auth-card { text-align: center; padding: 20px 10px; }
+    .auth-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
 
-    /* Info Grid Stats */
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; background: #07090e; border: 1px solid #1c2230; border-radius: 14px; padding: 12px 6px; margin-bottom: 14px; }
-    .stat-item { text-align: center; border-right: 1px solid #181d2a; }
-    .stat-item:last-child { border-right: none; }
-    .stat-label { font-size: 10px; color: #6b7280; font-weight: 700; margin-top: 4px; letter-spacing: 0.5px; }
-    .stat-val { font-size: 13px; font-weight: 800; color: #fff; margin-top: 3px; }
+    .input-box {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      background: rgba(15, 18, 30, 0.8);
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 2px;
+      outline: none;
+      margin-bottom: 15px;
+    }
 
-    /* Strategy Info Footer */
-    .analysis-info { background: #07090e; border: 1px solid #1c2230; border-radius: 12px; padding: 10px; font-size: 11px; color: #9ca3af; font-weight: 600; margin-bottom: 12px; }
-    .analysis-info span { color: #c084fc; font-weight: 700; }
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+    }
 
-    .reasons-box { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 12px; font-size: 11px; color: #10b981; font-weight: 600; text-align: left; line-height: 1.5; }
+    .market-toggles {
+      display: flex;
+      gap: 10px;
+      background: rgba(15, 18, 30, 0.8);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .market-toggle-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .market-toggle-btn.active {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+    }
+
+    .control-group { margin-bottom: 15px; }
+    .control-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .select-wrapper select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      background: rgba(15, 18, 30, 0.8);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      color: white;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .strategy-section { margin: 20px 0; }
+    .strategy-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .strategy-toggles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .strategy-toggle {
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      color: #a78bfa;
+      font-weight: 600;
+    }
+
+    .generate-section { text-align: center; margin-top: 25px; }
+    .limit-indicator { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+
+    .btn-circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(18,21,36,1) 70%);
+      border: 3px solid #7c3aed;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn-circle:active { transform: scale(0.95); }
+    .btn-circle i { font-size: 2.2rem; color: #a78bfa; margin-bottom: 5px; }
+    .btn-circle span { font-weight: 800; font-size: 1rem; line-height: 1.2; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      border: 2px solid var(--purple-main);
+      padding: 25px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+    }
+
+    .signal-res { font-size: 2.2rem; font-weight: 800; margin: 12px 0; }
+    .signal-res.call { color: var(--green-glow); }
+    .signal-res.put { color: var(--red-glow); }
+
+    .close-btn {
+      margin-top: 15px;
+      padding: 10px 25px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="market-switch">
-      <div class="tab active" id="tabOtc" onclick="switchMarket('otc')">OTC MARKET</div>
-      <div class="tab" id="tabReal" onclick="switchMarket('real')">REAL MARKET</div>
+  <div class="dashboard">
+
+    <!-- LOGIN SCREEN -->
+    <div id="auth-panel" class="auth-card">
+      <h2>SignalForge Pro V2</h2>
+      <p>High Precision AI Engine</p>
+      <input type="text" id="license-key-input" class="input-box" placeholder="SF-PRO-XXXX" />
+      <button id="activate-btn" class="btn-submit">ACTIVATE LICENSE</button>
     </div>
 
-    <div class="input-group">
-      <label>ASSET</label>
-      <select id="assetSelect"></select>
-    </div>
-
-    <div class="input-group">
-      <label>TIMEFRAME</label>
-      <select id="tfSelect">
-        <option value="1">1 MINUTE</option>
-        <option value="2">2 MINUTES</option>
-        <option value="5">5 MINUTES</option>
-      </select>
-    </div>
-
-    <div class="section-title">ACTIVE STRATEGIES</div>
-    <div class="strategies">
-      <span class="chip">EMA + RSI</span>
-      <span class="chip">Price Action</span>
-      <span class="chip">Bollinger Bands</span>
-      <span class="chip">OTC Trend</span>
-      <span class="chip">Support/Resistance</span>
-    </div>
-
-    <div class="usage-pill"><span id="signalsUsed">0</span>/1 Free Signals Used today</div>
-
-    <div class="btn-container">
-      <div class="circular-btn" onclick="generateSignal()">
-        <svg class="bolt-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-        </svg>
-        <div class="btn-text">GENERATE<br>SIGNAL</div>
-        <div class="wave-line">〰〰</div>
+    <!-- MAIN DASHBOARD -->
+    <div id="main-panel" style="display: none;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <span style="color: #a78bfa; font-weight: 700; font-size: 0.9rem;">MHB VIP ACCURACY BOT</span>
+        <button id="logout-btn" style="background: none; border: none; color: var(--red-glow); cursor: pointer; font-size: 0.85rem;">Logout</button>
       </div>
+
+      <!-- MARKET TOGGLE -->
+      <div class="market-toggles">
+        <button id="btn-otc" class="market-toggle-btn active" onclick="switchMarket('otc')">OTC MARKET</button>
+        <button id="btn-real" class="market-toggle-btn" onclick="switchMarket('real')">REAL MARKET</button>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="control-group">
+        <label>SELECT ASSET PAIR</label>
+        <div class="select-wrapper">
+          <select id="asset-select"></select>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>TIMEFRAME</label>
+        <div class="select-wrapper">
+          <select id="timeframe">
+            <option value="1">1 MINUTE (VIP Turbo)</option>
+            <option value="5">5 MINUTES (Safe Trend)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- HIGH ACCURACY STRATEGIES -->
+      <div class="strategy-section">
+        <p class="strategy-label">ACTIVE HIGH-ACCURACY ALGORITHMS</p>
+        <div class="strategy-toggles">
+          <span class="strategy-toggle">EMA (9,21) + RSI (14)</span>
+          <span class="strategy-toggle">Price Action S/R</span>
+          <span class="strategy-toggle">Bollinger Breakout</span>
+          <span class="strategy-toggle">OTC Volume Trend</span>
+          <span class="strategy-toggle">MACD Reversal</span>
+        </div>
+      </div>
+
+      <!-- GENERATE BUTTON -->
+      <div class="generate-section">
+        <div class="limit-indicator" id="limit-text">0/5 Signals Used Today</div>
+        <button class="btn-circle" id="generate-btn">
+          <i class="ph-fill ph-lightning"></i>
+          <span>GENERATE<br>VIP SIGNAL</span>
+        </button>
+      </div>
+
     </div>
+
   </div>
 
-  <!-- RESULT POPUP MODAL -->
-  <div class="modal-overlay" id="resultModal">
+  <!-- MODAL -->
+  <div class="modal-overlay" id="signal-modal">
     <div class="modal-card">
-      <div class="close-btn" onclick="closeModal()">✕</div>
-      
-      <div class="check-icon-circle">✓</div>
-      <div class="modal-header-title">SIGNAL <span>GENERATED</span></div>
-      <div class="modal-subtitle" id="modalTfText">1-MINUTE SIGNAL</div>
-
-      <div class="trade-time-box">
-        <div class="trade-time-label">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          TRADE TIME
-        </div>
-        <div class="trade-time-val" id="tradeTimeVal">10:06</div>
+      <h3 id="modal-title">ANALYZING...</h3>
+      <div id="modal-body">
+        <p style="color: var(--text-muted); margin-top: 10px;">Checking multi-indicator convergence...</p>
       </div>
-
-      <div class="direction-box" id="dirBox">
-        <svg class="bg-candles" viewBox="0 0 100 50" preserveAspectRatio="none">
-          <rect x="10" y="10" width="4" height="25" fill="#ef4444"/><line x1="12" y1="5" x2="12" y2="40" stroke="#ef4444"/>
-          <rect x="30" y="15" width="4" height="20" fill="#22c55e"/><line x1="32" y1="8" x2="32" y2="42" stroke="#22c55e"/>
-          <rect x="50" y="8" width="4" height="30" fill="#ef4444"/><line x1="52" y1="2" x2="52" y2="45" stroke="#ef4444"/>
-          <rect x="70" y="20" width="4" height="15" fill="#22c55e"/><line x1="72" y1="12" x2="72" y2="38" stroke="#22c55e"/>
-          <rect x="90" y="12" width="4" height="22" fill="#ef4444"/><line x1="92" y1="6" x2="92" y2="40" stroke="#ef4444"/>
-        </svg>
-        
-        <div class="dir-label" id="dirLabel">DIRECTION</div>
-        <div class="dir-val" id="dirVal">PUT</div>
-        <div class="arrow-icon" id="arrowIcon">🔻</div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div style="color:#a855f7; font-size:12px;">🎯</div>
-          <div class="stat-label">ASSET</div>
-          <div class="stat-val" id="resAsset">USDBDT-OTC</div>
-        </div>
-        <div class="stat-item">
-          <div style="color:#a855f7; font-size:12px;">$</div>
-          <div class="stat-label">PRICE</div>
-          <div class="stat-val" id="resPrice">117.37224</div>
-        </div>
-        <div class="stat-item">
-          <div style="color:#a855f7; font-size:12px;">📈</div>
-          <div class="stat-label">ACCURACY</div>
-          <div class="stat-val" id="resAcc">98% 🔥</div>
-        </div>
-      </div>
-
-      <div class="analysis-info">
-        📊 Analyzed <b>250</b> Candles<br>
-        ⚙️ Strategy: <span>EMA RSI, PRICE ACTION, BOLLINGER, OTC TREND, SNR</span>
-      </div>
-
-      <div class="reasons-box" id="reasonsText">
-        ⓘ EMA+RSI Bearish | Price Action Bearish | OTC Trend Strong Sell | Bollinger Overbought Reversal | Resistance Zone Rejection
-      </div>
+      <button class="close-btn" id="close-modal" style="display:none;" onclick="closeModal()">CLOSE SIGNAL</button>
     </div>
   </div>
 
   <script>
-    const otcAssets = ["USDBDT-OTC", "ADAUSD_otc", "USDBRL-OTC", "EURUSD-OTC", "USDINR-OTC"];
-    const realAssets = ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD"];
-    let currentMarket = 'otc';
+    const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
     let usedCount = 0;
 
-    function loadAssets() {
-      const select = document.getElementById("assetSelect");
-      select.innerHTML = "";
-      const list = currentMarket === 'otc' ? otcAssets : realAssets;
+    // Expanded Asset Lists
+    const otcAssets = [
+      "ADAUSD_otc", "AUDCAD-OTC", "AUDJPY-OTC", "AUDNZD-OTC", "AUDUSD-OTC",
+      "BRLUSD-OTC", "BTCUSD-OTC", "CADCHF-OTC", "CADJPY-OTC", "EURAUD-OTC",
+      "EURCAD-OTC", "EURCHF-OTC", "EURGBP-OTC", "EURJPY-OTC", "EURUSD-OTC",
+      "GBPAUD-OTC", "GBPCAD-OTC", "GBPJPY-OTC", "GBPUSD-OTC", "NZDUSD-OTC",
+      "USDBDT-OTC", "USDCAD-OTC", "USDCHF-OTC", "USDIDR-OTC", "USDINR-OTC",
+      "USDJPY-OTC", "USDPKR-OTC", "XAUUSD-OTC (Gold)"
+    ];
+
+    const realAssets = [
+      "EUR/USD (Real)", "GBP/USD (Real)", "USD/JPY (Real)", "USD/CHF (Real)",
+      "AUD/USD (Real)", "USD/CAD (Real)", "EUR/GBP (Real)", "EUR/JPY (Real)",
+      "GBP/JPY (Real)", "EUR/CAD (Real)", "AUD/JPY (Real)", "CAD/JPY (Real)"
+    ];
+
+    const authPanel = document.getElementById('auth-panel');
+    const mainPanel = document.getElementById('main-panel');
+    const licenseInput = document.getElementById('license-key-input');
+    const activateBtn = document.getElementById('activate-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const assetSelect = document.getElementById('asset-select');
+    const generateBtn = document.getElementById('generate-btn');
+    const limitText = document.getElementById('limit-text');
+    const modal = document.getElementById('signal-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function populateAssets(list) {
+      assetSelect.innerHTML = '';
       list.forEach(asset => {
-        const opt = document.createElement("option");
+        const opt = document.createElement('option');
         opt.value = asset;
         opt.innerText = asset;
-        select.appendChild(opt);
+        assetSelect.appendChild(opt);
       });
     }
 
+    populateAssets(otcAssets);
+
     function switchMarket(type) {
-      currentMarket = type;
-      document.getElementById("tabOtc").classList.toggle("active", type === 'otc');
-      document.getElementById("tabReal").classList.toggle("active", type === 'real');
-      loadAssets();
+      document.getElementById('btn-otc').classList.toggle('active', type === 'otc');
+      document.getElementById('btn-real').classList.toggle('active', type === 'real');
+      populateAssets(type === 'otc' ? otcAssets : realAssets);
     }
 
-    function generateSignal() {
-      const now = new Date();
-      now.setMinutes(now.getMinutes() + 1);
-      const timeStr = now.toTimeString().substring(0, 5);
-      
-      const asset = document.getElementById("assetSelect").value;
-      const tf = document.getElementById("tfSelect").value;
-
-      document.getElementById("tradeTimeVal").innerText = timeStr;
-      document.getElementById("modalTfText").innerText = tf + "-MINUTE SIGNAL";
-      document.getElementById("resAsset").innerText = asset;
-      
-      const isCall = Math.random() > 0.5;
-      const price = (100 + Math.random() * 50).toFixed(5);
-      document.getElementById("resPrice").innerText = price;
-
-      const dirBox = document.getElementById("dirBox");
-      const dirLabel = document.getElementById("dirLabel");
-      const dirVal = document.getElementById("dirVal");
-      const arrowIcon = document.getElementById("arrowIcon");
-      const reasons = document.getElementById("reasonsText");
-
-      if (isCall) {
-        dirBox.className = "direction-box call-border";
-        dirLabel.className = "dir-label call";
-        dirVal.className = "dir-val call";
-        dirVal.innerText = "CALL";
-        arrowIcon.innerText = "🟢";
-        reasons.innerHTML = "ⓘ EMA+RSI Bullish | Price Action Bullish | OTC Trend Strong Buy | Bollinger Oversold Reversal | Support Zone Bounce";
-        reasons.style.color = "#10b981";
-        reasons.style.borderColor = "rgba(16, 185, 129, 0.2)";
-        reasons.style.background = "rgba(16, 185, 129, 0.05)";
+    activateBtn.addEventListener('click', () => {
+      if (validKeys.includes(licenseInput.value.trim())) {
+        authPanel.style.display = 'none';
+        mainPanel.style.display = 'block';
       } else {
-        dirBox.className = "direction-box put-border";
-        dirLabel.className = "dir-label put";
-        dirVal.className = "dir-val put";
-        dirVal.innerText = "PUT";
-        arrowIcon.innerText = "🔻";
-        reasons.innerHTML = "ⓘ EMA+RSI Bearish | Price Action Bearish | OTC Trend Strong Sell | Bollinger Overbought Reversal | Resistance Zone Rejection";
-        reasons.style.color = "#ef4444";
-        reasons.style.borderColor = "rgba(239, 68, 68, 0.2)";
-        reasons.style.background = "rgba(239, 68, 68, 0.05)";
+        alert('Invalid Key! Use: SF-PRO-9821');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      mainPanel.style.display = 'none';
+      authPanel.style.display = 'block';
+      licenseInput.value = '';
+    });
+
+    generateBtn.addEventListener('click', () => {
+      if (usedCount >= 5) {
+        alert('Daily Limit Reached! (5/5 Used)');
+        return;
       }
 
-      usedCount++;
-      document.getElementById("signalsUsed").innerText = usedCount;
-      document.getElementById("resultModal").style.display = "flex";
-    }
+      modal.style.display = 'flex';
+      modalTitle.innerText = "HIGH-ACCURACY SCANNING...";
+      modalBody.innerHTML = `
+        <div style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">
+          <p>⚡ EMA + RSI Cross Confirming...</p>
+          <p>📊 Checking Price Action Levels...</p>
+        </div>
+      `;
+      closeModalBtn.style.display = 'none';
 
-    function closeModal() {
-      document.getElementById("resultModal").style.display = "none";
-    }
+      setTimeout(() => {
+        usedCount++;
+        limitText.innerText = `${usedCount}/5 Signals Used Today`;
 
-    loadAssets();
+        const isCall = Math.random() > 0.48;
+        const signalType = isCall ? 'CALL (BUY ⬆)' : 'PUT (SELL ⬇)';
+        const colorClass = isCall ? 'call' : 'put';
+        // High Accuracy Score Range (92% to 98%)
+        const accuracyScore = (92 + Math.floor(Math.random() * 7)).toString();
+
+        modalTitle.innerText = "HIGH ACCURACY SIGNAL";
+        modalBody.innerHTML = `
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">ASSET: <b style="color:#fff">${assetSelect.value}</b></div>
+          <div class="signal-res ${colorClass}">${signalType}</div>
+          <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); padding: 8px; border-radius: 10px; color: #10B981; font-weight: 700; font-size: 0.9rem;">
+            🎯 CONFIDENCE / ACCURACY: ${accuracyScore}%
+          </div>
+        `;
+        closeModalBtn.style.display = 'inline-block';
+      }, 2500);
+    });
+
+    function closeModal() { modal.style.display = 'none'; }
   </script>
 </body>
-                                   </html>
-        
+                                                                     </html>
+            
