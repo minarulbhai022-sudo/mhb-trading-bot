@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- FORCE DEPLOYMENT VERSION 4.1 - UNLIMITED PREMIUM -->
+<!-- FORCE DEPLOYMENT VERSION 4.2 - FLAGS & MORE PAIRS -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -149,7 +149,8 @@
     .m-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-weight: 800; font-size: 0.85rem; cursor: pointer; }
     .m-btn.active { background: var(--purple-gradient); color: white; }
     .lbl { color: var(--text-muted); font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; display: block; }
-    .select-card { width: 100%; background: #121524; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 12px 15px; color: white; font-weight: 700; outline: none; margin-bottom: 18px; }
+    .select-card { width: 100%; background: #121524; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 12px 15px; color: white; font-weight: 700; outline: none; margin-bottom: 18px; font-size: 0.95rem; }
+    .select-card option { background: #0d0f19; color: white; padding: 10px; }
     .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
 
     /* MODALS */
@@ -222,8 +223,8 @@
 
         <label class="lbl">TIMEFRAME</label>
         <select class="select-card">
-          <option>1 MINUTE</option>
-          <option>5 MINUTES</option>
+          <option>⚡ 1 MINUTE</option>
+          <option>⏳ 5 MINUTES</option>
         </select>
 
         <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin: 15px 0 10px 0;" id="usage-text">
@@ -312,16 +313,39 @@
     let isPremium = false;
     let signalsUsed = 0;
 
-    const otcPairs = ["ADAUSD_otc", "AUDCAD-OTC", "USDBDT-OTC", "USDINR-OTC", "EURUSD-OTC"];
-    const realPairs = ["AUD/CAD", "AUD/JPY", "EUR/USD", "GBP/USD"];
+    // ASSET PAIRS WITH FLAGS
+    const otcPairs = [
+      { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" },
+      { name: "USD/INR (OTC)", flag: "🇺🇸🇮🇳" },
+      { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
+      { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" },
+      { name: "GBP/USD (OTC)", flag: "🇬🇧🇺🇸" },
+      { name: "AUD/CAD (OTC)", flag: "🇦🇺🇨🇦" },
+      { name: "USD/PKR (OTC)", flag: "🇺🇸🇵🇰" },
+      { name: "USD/EGP (OTC)", flag: "🇺🇸🇪🇬" },
+      { name: "USD/TRY (OTC)", flag: "🇺🇸🇹🇷" },
+      { name: "Crypto IDX (OTC)", flag: "🪙⚡" }
+    ];
+
+    const realPairs = [
+      { name: "EUR/USD", flag: "🇪🇺🇺🇸" },
+      { name: "GBP/USD", flag: "🇬🇧🇺🇸" },
+      { name: "USD/JPY", flag: "🇺🇸🇯🇵" },
+      { name: "AUD/CAD", flag: "🇦🇺🇨🇦" },
+      { name: "EUR/GBP", flag: "🇪🇺🇬🇧" },
+      { name: "USD/CHF", flag: "🇺🇸🇨🇭" },
+      { name: "AUD/JPY", flag: "🇦🇺🇯🇵" },
+      { name: "NZD/USD", flag: "🇳🇿🇺🇸" }
+    ];
 
     const assetSelect = document.getElementById('asset-select');
 
     function populateSelect(list) {
       assetSelect.innerHTML = '';
-      list.forEach(pair => {
+      list.forEach(item => {
         const opt = document.createElement('option');
-        opt.value = pair; opt.innerText = pair;
+        opt.value = `${item.flag} ${item.name}`;
+        opt.innerText = `${item.flag}  ${item.name}`;
         assetSelect.appendChild(opt);
       });
     }
@@ -367,7 +391,6 @@
     }
 
     function generateSignal() {
-      // PREMIUM UNLIMITED
       const maxLimit = isPremium ? 999999 : 1;
       
       if (signalsUsed >= maxLimit) {
@@ -408,7 +431,7 @@
           dirVal.innerText = 'CALL';
           arrow.innerText = '🔻';
           arrow.className = 'p-arrow call';
-          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | OTC Trend Strong Buy";
+          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | Trend Strong Buy";
         } else {
           dirBox.className = 'p-dir-box';
           dirLbl.style.color = '#ef4444';
@@ -416,7 +439,7 @@
           dirVal.innerText = 'PUT';
           arrow.innerText = '🔻';
           arrow.className = 'p-arrow';
-          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | OTC Trend Strong Sell";
+          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | Trend Strong Sell";
         }
 
         document.getElementById('result-modal').style.display = 'flex';
@@ -425,4 +448,4 @@
   </script>
 </body>
   </html>
-            
+                                    
