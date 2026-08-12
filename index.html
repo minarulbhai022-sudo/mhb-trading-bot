@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- FORCE DEPLOYMENT VERSION 2.0 -->
+<!-- FORCE DEPLOYMENT VERSION 3.0 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -101,7 +101,6 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: all 0.2s ease;
     }
 
     .btn-login-premium {
@@ -119,9 +118,9 @@
       justify-content: center;
       gap: 10px;
       box-shadow: 0 8px 25px var(--purple-glow);
-      transition: all 0.2s ease;
     }
 
+    /* DASHBOARD */
     .dash-box {
       background: rgba(13, 15, 25, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -136,16 +135,28 @@
     .select-card { width: 100%; background: #121524; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 12px 15px; color: white; font-weight: 700; outline: none; margin-bottom: 18px; }
     .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
 
+    /* MODALS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 5, 10, 0.95); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
     .popup-card { background: #0d0f19; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; width: 100%; max-width: 380px; padding: 25px; text-align: center; position: relative; }
     .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.3rem; cursor: pointer; }
+
+    /* SIGNAL MODAL SPECIFIC */
+    .p-head { text-align: center; padding-bottom: 10px; }
+    .p-check { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #8b5cf6; color: #a78bfa; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 1.2rem; }
+    .p-trade-box { margin: 10px 0 15px 0; background: rgba(255, 255, 255, 0.03); border-radius: 12px; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+    .p-dir-box { margin-bottom: 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 16px; padding: 18px; text-align: center; }
+    .p-dir-box.call { border-color: rgba(16, 185, 129, 0.3); }
+    .p-arrow { font-size: 3rem; line-height: 1; display: inline-block; margin-top: 5px; }
+    .p-arrow.call { transform: rotate(180deg); color: #10b981; }
+    .p-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-bottom: 15px; background: rgba(255, 255, 255, 0.02); border-radius: 12px; padding: 10px; text-align: center; }
+    .p-foot { background: rgba(16, 185, 129, 0.08); padding: 12px; border-radius: 12px; font-size: 0.72rem; color: #10b981; text-align: center; line-height: 1.4; }
   </style>
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- LANDING PAGE VIEW -->
+    <!-- LANDING VIEW -->
     <div id="landing-view">
       <div class="top-pill-btn" onclick="openKeyModal()">
         <i class="ph ph-sign-in"></i> Login with Premium License
@@ -230,11 +241,55 @@
     </div>
   </div>
 
+  <!-- RESULT MODAL -->
+  <div class="modal-overlay" id="result-modal">
+    <div class="popup-card">
+      <button class="close-btn" onclick="closeResultModal()">✕</button>
+
+      <div class="p-head">
+        <div class="p-check"><i class="ph ph-check"></i></div>
+        <h3 style="font-size: 1.3rem; font-weight: 800;">SIGNAL <span style="color:#8b5cf6;">GENERATED</span></h3>
+        <p style="color:var(--text-muted); font-size: 0.72rem; font-weight: 700;">1-MINUTE SIGNAL</p>
+      </div>
+
+      <div class="p-trade-box">
+        <span style="color:var(--text-muted); font-size: 0.75rem; font-weight: 700;"><i class="ph ph-calendar-blank"></i> TRADE TIME</span>
+        <span style="color:#a78bfa; font-weight:800; font-size:1.1rem;" id="res-time">--:--</span>
+      </div>
+
+      <div class="p-dir-box" id="res-dir-box">
+        <div style="font-size: 0.75rem; font-weight: 800; letter-spacing: 1px;" id="res-dir-lbl">DIRECTION</div>
+        <div style="font-size: 2.2rem; font-weight: 900;" id="res-dir-val">PUT</div>
+        <div class="p-arrow" id="res-arrow">🔻</div>
+      </div>
+
+      <div class="p-grid">
+        <div>
+          <div style="color:var(--text-muted); font-size:0.65rem; font-weight:700;">ASSET</div>
+          <div style="font-size:0.8rem; font-weight:800;" id="res-asset">---</div>
+        </div>
+        <div>
+          <div style="color:var(--text-muted); font-size:0.65rem; font-weight:700;">PRICE</div>
+          <div style="font-size:0.8rem; font-weight:800;" id="res-price">---</div>
+        </div>
+        <div>
+          <div style="color:var(--text-muted); font-size:0.65rem; font-weight:700;">ACCURACY</div>
+          <div style="font-size:0.8rem; font-weight:800;">98% 🔥</div>
+        </div>
+      </div>
+
+      <div class="p-foot" id="res-foot">
+        ℹ️ EMA+RSI Bearish | OTC Trend Strong
+      </div>
+    </div>
+  </div>
+
   <style> @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } </style>
 
   <script>
     const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
     let isPremium = false;
+    let signalsUsed = 0;
 
     const otcPairs = ["ADAUSD_otc", "AUDCAD-OTC", "USDBDT-OTC", "USDINR-OTC", "EURUSD-OTC"];
     const realPairs = ["AUD/CAD", "AUD/JPY", "EUR/USD", "GBP/USD"];
@@ -259,13 +314,14 @@
 
     function openKeyModal() { document.getElementById('key-modal').style.display = 'flex'; }
     function closeKeyModal() { document.getElementById('key-modal').style.display = 'none'; }
+    function closeResultModal() { document.getElementById('result-modal').style.display = 'none'; }
 
     function loginFree() {
       isPremium = false;
       document.getElementById('landing-view').style.display = 'none';
       document.getElementById('dashboard-view').style.display = 'block';
       document.getElementById('user-badge').innerText = 'FREE USER (OFFLINE)';
-      document.getElementById('usage-text').innerText = '0/1 Free Signals Used today';
+      document.getElementById('usage-text').innerText = `${signalsUsed}/1 Free Signals Used today`;
     }
 
     function verifyKey() {
@@ -278,9 +334,9 @@
         document.getElementById('user-badge').innerText = 'PREMIUM VIP ACTIVE';
         document.getElementById('user-badge').style.borderColor = '#f59e0b';
         document.getElementById('user-badge').style.color = '#f59e0b';
-        document.getElementById('usage-text').innerText = '0/5 Premium Signals Used today';
+        document.getElementById('usage-text').innerText = `${signalsUsed}/5 Premium Signals Used today`;
       } else {
-        alert('Invalid Key! Valid test key: SF-PRO-9821');
+        alert('Invalid Key! Try: SF-PRO-9821');
       }
     }
 
@@ -290,14 +346,55 @@
     }
 
     function generateSignal() {
-      const waitModal = document.getElementById('wait-modal');
-      waitModal.style.display = 'flex';
+      const maxLimit = isPremium ? 5 : 1;
+      if (signalsUsed >= maxLimit) {
+        alert(isPremium ? 'Daily limit reached (5/5 Used)' : 'Free limit reached (1/1 Used). Login for Premium!');
+        return;
+      }
+
+      document.getElementById('wait-modal').style.display = 'flex';
+
       setTimeout(() => {
-        waitModal.style.display = 'none';
-        alert('Signal Generated: PUT on ' + assetSelect.value);
-      }, 2000);
+        document.getElementById('wait-modal').style.display = 'none';
+        signalsUsed++;
+        document.getElementById('usage-text').innerText = `${signalsUsed}/${maxLimit} ${isPremium ? 'Premium' : 'Free'} Signals Used today`;
+
+        const isCall = Math.random() > 0.5;
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + 1);
+
+        document.getElementById('res-time').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        document.getElementById('res-asset').innerText = assetSelect.value;
+        document.getElementById('res-price').innerText = (117 + Math.random()).toFixed(5);
+
+        const dirBox = document.getElementById('res-dir-box');
+        const dirLbl = document.getElementById('res-dir-lbl');
+        const dirVal = document.getElementById('res-dir-val');
+        const arrow = document.getElementById('res-arrow');
+        const foot = document.getElementById('res-foot');
+
+        if (isCall) {
+          dirBox.className = 'p-dir-box call';
+          dirLbl.style.color = '#10b981';
+          dirVal.style.color = '#10b981';
+          dirVal.innerText = 'CALL';
+          arrow.innerText = '🔻';
+          arrow.className = 'p-arrow call';
+          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | OTC Trend Strong Buy";
+        } else {
+          dirBox.className = 'p-dir-box';
+          dirLbl.style.color = '#ef4444';
+          dirVal.style.color = '#ef4444';
+          dirVal.innerText = 'PUT';
+          arrow.innerText = '🔻';
+          arrow.className = 'p-arrow';
+          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | OTC Trend Strong Sell";
+        }
+
+        document.getElementById('result-modal').style.display = 'flex';
+      }, 2500);
     }
   </script>
 </body>
-  </html>
-        
+                                                                     </html>
+                                                                     
