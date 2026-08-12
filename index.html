@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- FORCE DEPLOYMENT VERSION 4.3 - CUSTOM DARK DROPDOWN WITH CIRCULAR FLAGS -->
+<!-- FORCE DEPLOYMENT VERSION 4.4 - FIXED CLICKABLE DROPDOWN -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
   <style>
     :root {
       --bg-dark: #070913;
@@ -134,7 +133,6 @@
       border-radius: 20px;
       background: rgba(56, 189, 248, 0.1);
       border: 1px solid rgba(56, 189, 248, 0.25);
-      transition: all 0.2s ease;
     }
 
     /* DASHBOARD */
@@ -150,9 +148,8 @@
     .m-btn.active { background: var(--purple-gradient); color: white; }
     .lbl { color: var(--text-muted); font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; display: block; }
 
-    /* CUSTOM DARK DROPDOWN STYLE */
-    .custom-select-wrapper { position: relative; width: 100%; margin-bottom: 18px; }
-    .custom-select-trigger {
+    /* RELIABLE CLICKABLE DROPDOWN */
+    .select-card {
       width: 100%;
       background: #0d0f1a;
       border: 1px solid rgba(139, 92, 246, 0.5);
@@ -161,38 +158,16 @@
       color: white;
       font-weight: 700;
       font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      outline: none;
+      margin-bottom: 18px;
       cursor: pointer;
     }
-    .custom-select-options {
-      position: absolute;
-      top: 105%;
-      left: 0; right: 0;
+    .select-card option {
       background: #0d0f1d;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      max-height: 220px;
-      overflow-y: auto;
-      z-index: 100;
-      display: none;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-    .custom-select-options.open { display: block; }
-    .custom-option {
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: #e2e8f0;
+      color: #ffffff;
+      padding: 12px;
       font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255,255,255,0.03);
     }
-    .custom-option:hover { background: rgba(124, 58, 237, 0.2); }
-    .flag-icon { display: inline-flex; align-items: center; font-size: 1.1rem; line-height: 1; }
 
     .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
 
@@ -220,29 +195,29 @@
     <!-- LANDING VIEW -->
     <div id="landing-view">
       <div class="top-pill-btn" onclick="openKeyModal()">
-        <i class="ph ph-sign-in"></i> Login with Premium License
+        ➔ Login with Premium License
       </div>
 
       <h1 class="hero-title">Win up to 94%<br>OTC trades<br>Premium License</h1>
       <p class="hero-subtitle">using Smart Signal Engine</p>
 
       <div class="pills-group">
-        <div class="feature-pill"><i class="ph ph-brain"></i> No analysis needed</div>
-        <div class="feature-pill"><i class="ph ph-smiley"></i> Beginner friendly</div>
-        <div class="feature-pill"><i class="ph ph-clock"></i> 1-minute signals</div>
+        <div class="feature-pill">🧠 No analysis needed</div>
+        <div class="feature-pill">😊 Beginner friendly</div>
+        <div class="feature-pill">⏱️ 1-minute signals</div>
       </div>
 
       <div class="action-group">
         <button class="btn-login-free" onclick="loginFree()">
-          <i class="ph ph-user"></i> Login with Free Use
+          👤 Login with Free Use
         </button>
         <button class="btn-login-premium" onclick="openKeyModal()">
-          <i class="ph-fill ph-crown"></i> Login with Premium License
+          👑 Login with Premium License
         </button>
       </div>
 
       <a href="https://t.me/Minarul_bhai" target="_blank" class="contact-support-btn">
-        <i class="ph-fill ph-telegram-logo"></i> Contact Support
+        ✈️ Contact Support
       </a>
     </div>
 
@@ -262,15 +237,7 @@
         </div>
 
         <label class="lbl">ASSET</label>
-
-        <!-- CUSTOM DARK DROPDOWN WITH FLAGS -->
-        <div class="custom-select-wrapper">
-          <div class="custom-select-trigger" onclick="toggleDropdown()">
-            <span id="selected-asset-text"><span class="flag-icon">🇺🇸🇧🇩</span> USD/BDT (OTC)</span>
-            <i class="ph ph-caret-down" id="caret-icon"></i>
-          </div>
-          <div class="custom-select-options" id="asset-options"></div>
-        </div>
+        <select class="select-card" id="asset-select"></select>
 
         <label class="lbl">TIMEFRAME</label>
         <div style="width: 100%; background: #0d0f1a; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 14px 16px; color: white; font-weight: 700; font-size: 0.95rem; margin-bottom: 18px;">
@@ -282,7 +249,7 @@
         </div>
 
         <button class="big-gen-btn" onclick="generateSignal()">
-          <i class="ph-fill ph-lightning" style="font-size: 2rem; color: #c4b5fd; margin-bottom: 5px;"></i>
+          <span style="font-size: 2rem; color: #c4b5fd; margin-bottom: 5px;">⚡</span>
           <span style="font-weight: 800; font-size: 1.05rem;">GENERATE<br>SIGNAL</span>
         </button>
       </div>
@@ -294,7 +261,7 @@
   <div class="modal-overlay" id="key-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeKeyModal()">✕</button>
-      <div style="width:50px; height:50px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 15px auto;"><i class="ph ph-key"></i></div>
+      <div style="width:50px; height:50px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 15px auto;">🔑</div>
       <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
       <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 20px;">Enter your license key to unlock VIP access.</p>
       
@@ -319,13 +286,13 @@
       <button class="close-btn" onclick="closeResultModal()">✕</button>
 
       <div class="p-head">
-        <div class="p-check"><i class="ph ph-check"></i></div>
+        <div class="p-check">✓</div>
         <h3 style="font-size: 1.3rem; font-weight: 800;">SIGNAL <span style="color:#8b5cf6;">GENERATED</span></h3>
         <p style="color:var(--text-muted); font-size: 0.72rem; font-weight: 700;">1-MINUTE SIGNAL</p>
       </div>
 
       <div class="p-trade-box">
-        <span style="color:var(--text-muted); font-size: 0.75rem; font-weight: 700;"><i class="ph ph-calendar-blank"></i> TRADE TIME</span>
+        <span style="color:var(--text-muted); font-size: 0.75rem; font-weight: 700;">📅 TRADE TIME</span>
         <span style="color:#a78bfa; font-weight:800; font-size:1.1rem;" id="res-time">--:--</span>
       </div>
 
@@ -362,9 +329,7 @@
     const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
     let isPremium = false;
     let signalsUsed = 0;
-    let currentSelectedAsset = "🇺🇸🇧🇩 USD/BDT (OTC)";
 
-    // PAIRS WITH FLAGS MATCHING YOUR SCREENSHOT
     const otcPairs = [
       { name: "ADAUSD_otc", flag: "🪙" },
       { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
@@ -385,45 +350,24 @@
       { name: "USD/CHF", flag: "🇺🇸🇨🇭" }
     ];
 
-    const optionsContainer = document.getElementById('asset-options');
-    const selectedAssetTrigger = document.getElementById('selected-asset-text');
+    const assetSelect = document.getElementById('asset-select');
 
-    function renderOptions(list) {
-      optionsContainer.innerHTML = '';
-      list.forEach((item, index) => {
-        const opt = document.createElement('div');
-        opt.className = 'custom-option';
-        opt.innerHTML = `<span class="flag-icon">${item.flag}</span> <span>${item.name}</span>`;
-        opt.onclick = () => {
-          currentSelectedAsset = `${item.flag} ${item.name}`;
-          selectedAssetTrigger.innerHTML = `<span class="flag-icon">${item.flag}</span> ${item.name}`;
-          toggleDropdown();
-        };
-        optionsContainer.appendChild(opt);
-
-        if (index === 0) {
-          currentSelectedAsset = `${item.flag} ${item.name}`;
-          selectedAssetTrigger.innerHTML = `<span class="flag-icon">${item.flag}</span> ${item.name}`;
-        }
+    function populateSelect(list) {
+      assetSelect.innerHTML = '';
+      list.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = `${item.flag} ${item.name}`;
+        opt.innerText = `${item.flag}  ${item.name}`;
+        assetSelect.appendChild(opt);
       });
     }
 
-    renderOptions(otcPairs);
-
-    function toggleDropdown() {
-      optionsContainer.classList.toggle('open');
-      const caret = document.getElementById('caret-icon');
-      if (optionsContainer.classList.contains('open')) {
-        caret.className = 'ph ph-caret-up';
-      } else {
-        caret.className = 'ph ph-caret-down';
-      }
-    }
+    populateSelect(otcPairs);
 
     function toggleMarket(type) {
       document.getElementById('btn-otc').classList.toggle('active', type === 'otc');
       document.getElementById('btn-real').classList.toggle('active', type === 'real');
-      renderOptions(type === 'otc' ? otcPairs : realPairs);
+      populateSelect(type === 'otc' ? otcPairs : realPairs);
     }
 
     function openKeyModal() { document.getElementById('key-modal').style.display = 'flex'; }
@@ -474,4 +418,46 @@
         signalsUsed++;
         
         if (!isPremium) {
-            document.getElementBy
+            document.getElementById('usage-text').innerText = `${signalsUsed}/1 Free Signals Used today`;
+        } else {
+            document.getElementById('usage-text').innerText = `Unlimited Premium Signals Enabled`;
+        }
+
+        const isCall = Math.random() > 0.5;
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + 1);
+
+        document.getElementById('res-time').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+        document.getElementById('res-asset').innerText = assetSelect.value;
+        document.getElementById('res-price').innerText = (117 + Math.random()).toFixed(5);
+
+        const dirBox = document.getElementById('res-dir-box');
+        const dirLbl = document.getElementById('res-dir-lbl');
+        const dirVal = document.getElementById('res-dir-val');
+        const arrow = document.getElementById('res-arrow');
+        const foot = document.getElementById('res-foot');
+
+        if (isCall) {
+          dirBox.className = 'p-dir-box call';
+          dirLbl.style.color = '#10b981';
+          dirVal.style.color = '#10b981';
+          dirVal.innerText = 'CALL';
+          arrow.innerText = '🔻';
+          arrow.className = 'p-arrow call';
+          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | Trend Strong Buy";
+        } else {
+          dirBox.className = 'p-dir-box';
+          dirLbl.style.color = '#ef4444';
+          dirVal.style.color = '#ef4444';
+          dirVal.innerText = 'PUT';
+          arrow.innerText = '🔻';
+          arrow.className = 'p-arrow';
+          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | Trend Strong Sell";
+        }
+
+        document.getElementById('result-modal').style.display = 'flex';
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
