@@ -10,14 +10,10 @@
   <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
   <style>
     :root {
-      --bg-dark: #080a10;
+      --bg-dark: #070913;
       --card-bg: #0d0f19;
-      --panel-bg: #121524;
-      --purple-main: #805ad5;
-      --purple-btn: #7c3aed;
+      --purple-gradient: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
       --purple-glow: rgba(124, 58, 237, 0.4);
-      --green-glow: #10b981;
-      --red-glow: #ef4444;
       --text-main: #ffffff;
       --text-muted: #94a3b8;
     }
@@ -26,408 +22,241 @@
 
     body {
       background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 0%, #1e1035 0%, #080a10 70%);
+      background-image: radial-gradient(circle at 50% 20%, #171133 0%, #070913 75%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 15px;
+      justify-content: center;
+      padding: 25px 20px;
     }
 
-    .app-container { width: 100%; max-width: 440px; }
+    .app-container { width: 100%; max-width: 420px; text-align: center; }
 
-    /* Top Bar */
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-    .status-badge {
-      background: rgba(234, 88, 12, 0.2);
-      border: 1px solid rgba(234, 88, 12, 0.5);
-      color: #fb923c;
-      padding: 6px 14px;
+    /* Views control */
+    #dashboard-view { display: none; width: 100%; }
+    #landing-view { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+    /* Top Green Pill */
+    .top-pill-btn {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+      padding: 8px 20px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-    }
-    .btn-logout-icon {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #f87171;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
+      gap: 8px;
+      margin-bottom: 25px;
       cursor: pointer;
     }
 
-    /* Hero Banner Header */
+    /* Main Headline */
     .hero-title {
-      text-align: center;
-      font-size: 2.1rem;
+      font-size: 2.2rem;
       font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 8px;
-      background: linear-gradient(180deg, #a78bfa 0%, #c084fc 100%);
+      line-height: 1.2;
+      margin-bottom: 12px;
+      background: linear-gradient(180deg, #93c5fd 0%, #a78bfa 50%, #c084fc 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero-sub {
-      text-align: center;
-      color: #cbd5e1;
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 20px;
+
+    .hero-subtitle {
+      color: #e2e8f0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 35px;
     }
 
-    /* Pill Tags */
-    .pills-container { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 30px; }
-    .pill-tag {
-      background: rgba(30, 27, 75, 0.6);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      color: #c4b5fd;
-      padding: 8px 18px;
+    /* Feature Pills */
+    .pills-group { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; margin-bottom: 40px; }
+    .feature-pill {
+      background: rgba(23, 25, 45, 0.7);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: #cbd5e1;
+      padding: 10px 24px;
       border-radius: 25px;
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      width: fit-content;
     }
 
-    /* Main Dashboard Box */
+    /* Login Action Buttons */
+    .action-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+    
+    .btn-login-free {
+      width: 100%;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .btn-login-free:active { background: rgba(255, 255, 255, 0.1); transform: scale(0.98); }
+
+    .btn-login-premium {
+      width: 100%;
+      padding: 18px;
+      background: var(--purple-gradient);
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px var(--purple-glow);
+      transition: all 0.2s ease;
+    }
+    .btn-login-premium:active { transform: scale(0.98); }
+
+    /* DASHBOARD STYLES */
     .dash-box {
-      background: rgba(13, 15, 25, 0.85);
+      background: rgba(13, 15, 25, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-align: left;
     }
+    .market-switch { display: flex; background: #121524; padding: 5px; border-radius: 16px; margin-bottom: 20px; }
+    .m-btn { flex: 1; padding: 12px; border: none; border-radius: 12px; background: transparent; color: var(--text-muted); font-weight: 800; font-size: 0.85rem; cursor: pointer; }
+    .m-btn.active { background: var(--purple-gradient); color: white; }
+    .lbl { color: var(--text-muted); font-size: 0.75rem; font-weight: 800; margin-bottom: 8px; display: block; }
+    .select-card { width: 100%; background: #121524; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 12px 15px; color: white; font-weight: 700; outline: none; margin-bottom: 18px; }
+    .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
 
-    /* Market Toggles */
-    .market-switch {
-      display: flex;
-      background: rgba(18, 21, 36, 0.9);
-      padding: 5px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 20px;
-    }
-    .m-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 800;
-      font-size: 0.85rem;
-      cursor: pointer;
-      letter-spacing: 0.5px;
-    }
-    .m-btn.active {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      color: white;
-      box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
-    }
-
-    /* Select Label & Inputs */
-    .lbl { color: var(--text-muted); font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; display: block; }
-    
-    .select-card {
-      width: 100%;
-      background: rgba(18, 21, 36, 0.9);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      border-radius: 14px;
-      padding: 12px 15px;
-      color: white;
-      font-weight: 700;
-      font-size: 0.95rem;
-      outline: none;
-      margin-bottom: 18px;
-    }
-
-    /* Active Strategies Toggles */
-    .strat-wrap { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 15px 0 25px 0; }
-    .strat-chip {
-      background: rgba(124, 58, 237, 0.12);
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      color: #a78bfa;
-      padding: 6px 14px;
-      border-radius: 12px;
-      font-size: 0.78rem;
-      font-weight: 600;
-    }
-
-    .signals-used { text-align: center; font-size: 0.82rem; color: var(--text-muted); font-weight: 600; margin-bottom: 15px; }
-
-    /* Round Action Button */
-    .action-btn-wrap { text-align: center; }
-    .big-gen-btn {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%);
-      border: 3px solid #7c3aed;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      cursor: pointer;
-      box-shadow: 0 0 35px rgba(124, 58, 237, 0.4);
-      transition: all 0.2s ease;
-    }
-    .big-gen-btn:active { transform: scale(0.96); }
-    .big-gen-btn i { font-size: 2.2rem; color: #c4b5fd; margin-bottom: 6px; }
-    .big-gen-btn span { font-weight: 800; font-size: 1.1rem; line-height: 1.2; letter-spacing: 0.5px; }
-
-    /* Modals Base */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(4, 5, 10, 0.94);
-      backdrop-filter: blur(8px);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 15px;
-    }
-
-    /* 1. Login Popup */
-    .auth-card-popup {
-      background: #0d0f19;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 24px;
-      width: 100%; max-width: 380px;
-      padding: 25px;
-      text-align: center;
-      position: relative;
-    }
-    .auth-icon-ring {
-      width: 50px; height: 50px; border-radius: 50%;
-      background: rgba(16, 185, 129, 0.15); color: #10b981;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; margin: 0 auto 15px auto;
-    }
-
-    /* 2. Waiting Animation Popup */
-    .wait-box { text-align: center; }
-    .pulse-ring {
-      width: 110px; height: 110px; border-radius: 50%;
-      border: 3px solid rgba(245, 158, 11, 0.2);
-      border-top: 3px solid #f59e0b;
-      margin: 0 auto 25px auto;
-      display: flex; align-items: center; justify-content: center;
-      animation: spin 1.2s linear infinite;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .wait-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 6px; }
-    .wait-title span { color: #8b5cf6; }
-
-    /* 3. Signal Output Modal */
-    .p-card {
-      background: #0b0d16;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      width: 100%; max-width: 380px;
-      overflow: hidden;
-      position: relative;
-    }
-    .p-close { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.3rem; cursor: pointer; }
-    .p-head { text-align: center; padding: 20px 20px 10px 20px; }
-    .p-check {
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 2px solid #8b5cf6; color: #a78bfa;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 10px auto; font-size: 1.2rem;
-    }
-    .p-trade-box {
-      margin: 10px 20px 15px 20px; background: rgba(255, 255, 255, 0.03);
-      border-radius: 12px; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center;
-    }
-    .p-dir-box {
-      margin: 0 20px 15px 20px; background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 16px;
-      padding: 18px; text-align: center;
-    }
-    .p-dir-box.call { border-color: rgba(16, 185, 129, 0.3); }
-    .p-arrow { font-size: 3.5rem; line-height: 1; display: inline-block; margin-top: 5px; }
-    .p-arrow.call { transform: rotate(180deg); color: #10b981; }
-
-    .p-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      margin: 0 20px 15px 20px; background: rgba(255, 255, 255, 0.02);
-      border-radius: 12px; padding: 10px; text-align: center;
-    }
-    .p-foot { background: rgba(16, 185, 129, 0.08); padding: 12px; font-size: 0.72rem; color: #10b981; text-align: center; line-height: 1.4; }
+    /* MODAL POPUPS */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 5, 10, 0.95); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+    .popup-card { background: #0d0f19; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; width: 100%; max-width: 380px; padding: 25px; text-align: center; position: relative; }
+    .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.3rem; cursor: pointer; }
   </style>
 </head>
 <body>
 
   <div class="app-container">
 
-    <!-- TOP HEADER BAR -->
-    <div class="top-bar">
-      <div class="status-badge" id="user-status-tag">
-        <i class="ph-fill ph-user-circle"></i> FREE USER (OFFLINE)
-      </div>
-      <button class="btn-logout-icon" id="login-open-btn" onclick="openAuthModal()">
-        <i class="ph ph-sign-in"></i> Login
-      </button>
-    </div>
-
-    <!-- MAIN HERO CONTENT -->
-    <h1 class="hero-title">Win up to 94%<br>OTC trades<br>Premium License</h1>
-    <p class="hero-sub">using Smart Signal Engine</p>
-
-    <div class="pills-container">
-      <div class="pill-tag"><i class="ph ph-brain"></i> No analysis needed</div>
-      <div class="pill-tag"><i class="ph ph-smiley"></i> Beginner friendly</div>
-      <div class="pill-tag"><i class="ph ph-clock"></i> 1-minute signals</div>
-    </div>
-
-    <!-- DASHBOARD PANEL -->
-    <div class="dash-box">
-      
-      <!-- MARKET TOGGLE BUTTONS -->
-      <div class="market-switch">
-        <button class="m-btn active" id="btn-otc" onclick="toggleMarket('otc')">OTC MARKET</button>
-        <button class="m-btn" id="btn-real" onclick="toggleMarket('real')">REAL MARKET</button>
+    <!-- LANDING / LOGIN PAGE VIEW -->
+    <div id="landing-view">
+      <div class="top-pill-btn" onclick="openKeyModal()">
+        <i class="ph ph-sign-in"></i> Login with Premium License
       </div>
 
-      <!-- ASSET SELECTOR -->
-      <label class="lbl">ASSET</label>
-      <select class="select-card" id="asset-select"></select>
+      <h1 class="hero-title">Win up to 94%<br>OTC trades<br>Premium License</h1>
+      <p class="hero-subtitle">using Smart Signal Engine</p>
 
-      <!-- TIMEFRAME SELECTOR -->
-      <label class="lbl">TIMEFRAME</label>
-      <select class="select-card" id="timeframe-select">
-        <option value="1">1 MINUTE</option>
-        <option value="5">5 MINUTES</option>
-      </select>
-
-      <!-- ACTIVE STRATEGIES -->
-      <label class="lbl" style="text-align: center; margin-top: 15px;">ACTIVE STRATEGIES</label>
-      <div class="strat-wrap">
-        <span class="strat-chip">EMA + RSI</span>
-        <span class="strat-chip">Price Action</span>
-        <span class="strat-chip">Bollinger Bands</span>
-        <span class="strat-chip">OTC Trend</span>
-        <span class="strat-chip">Support/Resistance</span>
+      <div class="pills-group">
+        <div class="feature-pill"><i class="ph ph-brain"></i> No analysis needed</div>
+        <div class="feature-pill"><i class="ph ph-smiley"></i> Beginner friendly</div>
+        <div class="feature-pill"><i class="ph ph-clock"></i> 1-minute signals</div>
       </div>
 
-      <!-- SIGNALS USAGE & BUTTON -->
-      <div class="signals-used" id="usage-text">0/1 Free Signals Used today</div>
-
-      <div class="action-btn-wrap">
-        <button class="big-gen-btn" onclick="startGeneration()">
-          <i class="ph-fill ph-lightning"></i>
-          <span>GENERATE<br>SIGNAL</span>
-          <div style="font-size: 1.2rem; margin-top: 4px;">〰️</div>
+      <div class="action-group">
+        <button class="btn-login-free" onclick="loginFree()">
+          <i class="ph ph-user"></i> Login with Free Use
+        </button>
+        <button class="btn-login-premium" onclick="openKeyModal()">
+          <i class="ph-fill ph-crown"></i> Login with Premium License
         </button>
       </div>
+    </div>
 
+    <!-- MAIN DASHBOARD VIEW -->
+    <div id="dashboard-view">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color:#10b981; padding: 6px 14px; border-radius:20px; font-size:0.75rem; font-weight:700;" id="user-badge">
+          FREE USER
+        </div>
+        <button onclick="logout()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; padding: 6px 14px; border-radius:20px; font-size:0.75rem; font-weight:700; cursor:pointer;">Logout</button>
+      </div>
+
+      <div class="dash-box">
+        <div class="market-switch">
+          <button class="m-btn active" id="btn-otc" onclick="toggleMarket('otc')">OTC MARKET</button>
+          <button class="m-btn" id="btn-real" onclick="toggleMarket('real')">REAL MARKET</button>
+        </div>
+
+        <label class="lbl">ASSET</label>
+        <select class="select-card" id="asset-select"></select>
+
+        <label class="lbl">TIMEFRAME</label>
+        <select class="select-card">
+          <option>1 MINUTE</option>
+          <option>5 MINUTES</option>
+        </select>
+
+        <div style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin: 15px 0 10px 0;" id="usage-text">
+          0/1 Free Signals Used today
+        </div>
+
+        <button class="big-gen-btn" onclick="generateSignal()">
+          <i class="ph-fill ph-lightning" style="font-size: 2rem; color: #c4b5fd; margin-bottom: 5px;"></i>
+          <span style="font-weight: 800; font-size: 1.05rem;">GENERATE<br>SIGNAL</span>
+        </button>
+      </div>
     </div>
 
   </div>
 
-  <!-- AUTH POPUP MODAL -->
-  <div class="modal-overlay" id="auth-modal">
-    <div class="auth-card-popup">
-      <button class="p-close" onclick="closeAuthModal()">✕</button>
-      <div class="auth-icon-ring"><i class="ph ph-key"></i></div>
-      <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
+  <!-- KEY POPUP MODAL -->
+  <div class="modal-overlay" id="key-modal">
+    <div class="popup-card">
+      <button class="close-btn" onclick="closeKeyModal()">✕</button>
+      <div style="width:50px; height:50px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.5rem; margin:0 auto 15px auto;"><i class="ph ph-key"></i></div>
+      <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
       <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 20px;">Enter your license key to unlock VIP access.</p>
       
-      <input type="text" id="license-key" placeholder="Enter License Key..." style="width:100%; padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:0.95rem; text-align:center; outline:none; margin-bottom:15px;">
+      <input type="text" id="license-input" placeholder="Enter License Key..." style="width:100%; padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:0.95rem; text-align:center; outline:none; margin-bottom:15px;">
       
-      <button onclick="verifyKey()" style="width:100%; padding:14px; border-radius:12px; border:none; background:linear-gradient(135deg, #7c3aed, #6d28d9); color:white; font-weight:700; font-size:1rem; cursor:pointer;">✓ Verify License</button>
+      <button onclick="verifyKey()" style="width:100%; padding:14px; border-radius:12px; border:none; background:var(--purple-gradient); color:white; font-weight:700; font-size:1rem; cursor:pointer;">✓ Verify License</button>
     </div>
   </div>
 
-  <!-- WAITING POPUP MODAL -->
+  <!-- WAITING MODAL -->
   <div class="modal-overlay" id="wait-modal">
-    <div class="wait-box">
-      <div class="pulse-ring"><i class="ph ph-activity" style="font-size:2rem; color:#f59e0b;"></i></div>
-      <div class="wait-title">WAITING FOR <span>SIGNAL</span></div>
-      <p style="color: var(--text-muted); font-size: 0.85rem;">Analyzing market conditions...</p>
+    <div style="text-align: center;">
+      <div style="width:90px; height:90px; border-radius:50%; border:3px solid rgba(245,158,11,0.2); border-top:3px solid #f59e0b; margin:0 auto 20px auto; animation: spin 1s linear infinite;"></div>
+      <h2 style="font-size: 1.5rem; font-weight: 800;">WAITING FOR <span style="color:#8b5cf6;">SIGNAL</span></h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 5px;">Analyzing market conditions...</p>
     </div>
   </div>
 
-  <!-- SIGNAL RESULT POPUP MODAL -->
-  <div class="modal-overlay" id="result-modal">
-    <div class="p-card">
-      <button class="p-close" onclick="closeResultModal()">✕</button>
-
-      <div class="p-head">
-        <div class="p-check"><i class="ph ph-check"></i></div>
-        <h3 style="font-size: 1.4rem; font-weight: 800;">SIGNAL <span style="color:#8b5cf6;">GENERATED</span></h3>
-        <p style="color:var(--text-muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">1-MINUTE SIGNAL</p>
-      </div>
-
-      <div class="p-trade-box">
-        <span style="color:var(--text-muted); font-size: 0.75rem; font-weight: 700;"><i class="ph ph-calendar-blank"></i> TRADE TIME</span>
-        <span style="color:#a78bfa; font-weight:800; font-size:1.1rem;" id="res-time">10:06</span>
-      </div>
-
-      <div class="p-dir-box" id="res-dir-box">
-        <div style="font-size: 0.75rem; font-weight: 800; letter-spacing: 1.5px;" id="res-dir-lbl">DIRECTION</div>
-        <div style="font-size: 2.2rem; font-weight: 900;" id="res-dir-val">PUT</div>
-        <div class="p-arrow" id="res-arrow">🔻</div>
-      </div>
-
-      <div class="p-grid">
-        <div>
-          <div style="color:var(--text-muted); font-size:0.65rem; font-weight:700;">ASSET</div>
-          <div style="font-size:0.85rem; font-weight:800;" id="res-asset">USDBDT-OTC</div>
-        </div>
-        <div>
-          <div style="color:var(--text-muted); font-size:0.65rem; font-weight:700;">PRICE</div>
-          <div style="font-size:0.85rem; font-weight:800;" id="res-price">117.37224</div>
-        </div>
-        <div>
-          <div style="color:var(--text-muted); font-size:0.65rem; font-weight:700;">ACCURACY</div>
-          <div style="font-size:0.85rem; font-weight:800;">98% 🔥</div>
-        </div>
-      </div>
-
-      <div style="text-align:center; font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">
-        📊 Analyzed <b>250 Candles</b>
-      </div>
-
-      <div class="p-foot" id="res-foot">
-        ℹ️ EMA+RSI Bearish | Price Action Bearish | OTC Trend Strong Sell | Resistance Rejection
-      </div>
-    </div>
-  </div>
+  <style> @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } </style>
 
   <script>
     const validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
     let isPremium = false;
-    let signalsUsed = 0;
 
-    const otcPairs = ["ADAUSD_otc", "AUDCAD-OTC", "AUDJPY-OTC", "AUDNZD-OTC", "USDBDT-OTC", "USDINR-OTC", "EURUSD-OTC"];
-    const realPairs = ["AUD/CAD", "AUD/CHF", "AUD/JPY", "AUD/USD", "CAD/JPY", "EUR/USD", "GBP/USD"];
+    const otcPairs = ["ADAUSD_otc", "AUDCAD-OTC", "USDBDT-OTC", "USDINR-OTC", "EURUSD-OTC"];
+    const realPairs = ["AUD/CAD", "AUD/JPY", "EUR/USD", "GBP/USD"];
 
     const assetSelect = document.getElementById('asset-select');
-    const authModal = document.getElementById('auth-modal');
-    const waitModal = document.getElementById('wait-modal');
-    const resultModal = document.getElementById('result-modal');
 
     function populateSelect(list) {
       assetSelect.innerHTML = '';
       list.forEach(pair => {
         const opt = document.createElement('option');
-        opt.value = pair;
-        opt.innerText = pair;
+        opt.value = pair; opt.innerText = pair;
         assetSelect.appendChild(opt);
       });
     }
-
     populateSelect(otcPairs);
 
     function toggleMarket(type) {
@@ -436,76 +265,47 @@
       populateSelect(type === 'otc' ? otcPairs : realPairs);
     }
 
-    function openAuthModal() { authModal.style.display = 'flex'; }
-    function closeAuthModal() { authModal.style.display = 'none'; }
-    function closeResultModal() { resultModal.style.display = 'none'; }
+    function openKeyModal() { document.getElementById('key-modal').style.display = 'flex'; }
+    function closeKeyModal() { document.getElementById('key-modal').style.display = 'none'; }
+
+    function loginFree() {
+      isPremium = false;
+      document.getElementById('landing-view').style.display = 'none';
+      document.getElementById('dashboard-view').style.display = 'block';
+      document.getElementById('user-badge').innerText = 'FREE USER (OFFLINE)';
+      document.getElementById('usage-text').innerText = '0/1 Free Signals Used today';
+    }
 
     function verifyKey() {
-      const input = document.getElementById('license-key').value.trim();
-      if (validKeys.includes(input)) {
+      const key = document.getElementById('license-input').value.trim();
+      if (validKeys.includes(key)) {
         isPremium = true;
-        document.getElementById('user-status-tag').innerHTML = '<i class="ph-fill ph-crown" style="color:#f59e0b;"></i> PREMIUM ACTIVE';
-        document.getElementById('user-status-tag').style.borderColor = 'rgba(16, 185, 129, 0.5)';
-        document.getElementById('user-status-tag').style.color = '#10b981';
-        document.getElementById('login-open-btn').innerText = 'Logout';
+        closeKeyModal();
+        document.getElementById('landing-view').style.display = 'none';
+        document.getElementById('dashboard-view').style.display = 'block';
+        document.getElementById('user-badge').innerText = 'PREMIUM VIP ACTIVE';
+        document.getElementById('user-badge').style.borderColor = '#f59e0b';
+        document.getElementById('user-badge').style.color = '#f59e0b';
         document.getElementById('usage-text').innerText = '0/5 Premium Signals Used today';
-        closeAuthModal();
       } else {
-        alert('Invalid Key! Try: SF-PRO-9821');
+        alert('Invalid Key! Valid test key: SF-PRO-9821');
       }
     }
 
-    function startGeneration() {
-      const maxLimit = isPremium ? 5 : 1;
-      if (signalsUsed >= maxLimit) {
-        alert(isPremium ? 'Daily limit reached (5/5 Used)' : 'Free limit reached (1/1 Used). Login for Premium!');
-        return;
-      }
+    function logout() {
+      document.getElementById('dashboard-view').style.display = 'none';
+      document.getElementById('landing-view').style.display = 'flex';
+    }
 
+    function generateSignal() {
+      const waitModal = document.getElementById('wait-modal');
       waitModal.style.display = 'flex';
-
       setTimeout(() => {
         waitModal.style.display = 'none';
-        signalsUsed++;
-        document.getElementById('usage-text').innerText = `${signalsUsed}/${maxLimit} ${isPremium ? 'Premium' : 'Free'} Signals Used today`;
-
-        // Render result popup
-        const isCall = Math.random() > 0.5;
-        const now = new Date();
-        now.setMinutes(now.getMinutes() + 1);
-        
-        document.getElementById('res-time').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-        document.getElementById('res-asset').innerText = assetSelect.value;
-        document.getElementById('res-price').innerText = (117 + Math.random()).toFixed(5);
-
-        const dirBox = document.getElementById('res-dir-box');
-        const dirLbl = document.getElementById('res-dir-lbl');
-        const dirVal = document.getElementById('res-dir-val');
-        const arrow = document.getElementById('res-arrow');
-        const foot = document.getElementById('res-foot');
-
-        if (isCall) {
-          dirBox.className = 'p-dir-box call';
-          dirLbl.style.color = '#10b981';
-          dirVal.style.color = '#10b981';
-          dirVal.innerText = 'CALL';
-          arrow.innerText = '🔻';
-          arrow.className = 'p-arrow call';
-          foot.innerText = "ℹ️ EMA+RSI Bullish | Price Action Bullish | OTC Trend Strong Buy | Support Zone Bounce";
-        } else {
-          dirBox.className = 'p-dir-box';
-          dirLbl.style.color = '#ef4444';
-          dirVal.style.color = '#ef4444';
-          dirVal.innerText = 'PUT';
-          arrow.innerText = '🔻';
-          arrow.className = 'p-arrow';
-          foot.innerText = "ℹ️ EMA+RSI Bearish | Price Action Bearish | OTC Trend Strong Sell | Resistance Zone Rejection";
-        }
-
-        resultModal.style.display = 'flex';
-      }, 2500);
+        alert('Signal Generated: PUT on ' + assetSelect.value);
+      }, 2000);
     }
   </script>
 </body>
-        </html>
+          </html>
   
