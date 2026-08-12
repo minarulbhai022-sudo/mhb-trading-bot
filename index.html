@@ -1,97 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHB Signal Engine</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background-color: #0b0e1b; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
-        .card { width: 100%; max-width: 380px; background: #151a2e; border-radius: 18px; padding: 20px; border: 1px solid #232a45; text-align: center; }
-        h2 { font-size: 20px; color: #a855f7; margin-bottom: 5px; }
-        .sub { font-size: 12px; color: #8b95b7; margin-bottom: 20px; }
-        
-        .market-switch { display: flex; background: #0b0e1b; border-radius: 10px; padding: 4px; margin-bottom: 15px; }
-        .tab { flex: 1; padding: 8px; border: none; background: transparent; color: #8b95b7; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .tab.active { background: #7c3aed; color: #fff; }
-        
-        select { width: 100%; padding: 12px; background: #1c233e; border: 1px solid #2e385e; color: #fff; border-radius: 8px; margin-bottom: 15px; outline: none; }
-        
-        .strategies { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin-bottom: 20px; }
-        .chip { background: #1c233e; padding: 5px 8px; border-radius: 6px; font-size: 10px; border: 1px solid #2e385e; color: #a5b4fc; }
-        
-        .btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #7c3aed, #4c1d95); border: none; color: #fff; font-weight: bold; border-radius: 10px; font-size: 15px; cursor: pointer; }
-        
-        .res-box { display: none; margin-top: 20px; padding: 15px; background: #1c233e; border-radius: 10px; border: 1px solid #2e385e; }
-        .dir { font-size: 26px; font-weight: bold; margin: 10px 0; }
-        .PUT { color: #ef4444; }
-        .CALL { color: #22c55e; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MHB Signal Engine V2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+    body { background: #0b0e14; color: #ffffff; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 15px; }
+    
+    .card { background: #131722; width: 100%; max-width: 420px; border-radius: 16px; border: 1px solid #1e2433; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
+    
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h2 { font-size: 22px; font-weight: 700; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; }
+    .header p { font-size: 12px; color: #71717a; margin-top: 4px; }
+    
+    .market-switch { display: flex; background: #0b0e14; padding: 4px; border-radius: 10px; margin-bottom: 18px; border: 1px solid #1e2433; }
+    .tab { flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; color: #71717a; transition: 0.3s; }
+    .tab.active { background: #7c3aed; color: #fff; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+    
+    .input-group { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; color: #a1a1aa; margin-bottom: 6px; font-weight: 500; }
+    select { width: 100%; padding: 12px; background: #1a1e2d; border: 1px solid #2e3548; color: #fff; border-radius: 10px; font-size: 14px; outline: none; }
+    
+    .strategies { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .chip { font-size: 11px; background: #1a1e2d; border: 1px solid #2e3548; color: #a1a1aa; padding: 6px 12px; border-radius: 20px; }
+    .chip.active { border-color: #7c3aed; color: #c084fc; background: rgba(124,58,237,0.1); }
+    
+    .btn-main { width: 100%; padding: 14px; background: linear-gradient(135deg, #7c3aed, #6d28d9); border: none; color: #fff; font-size: 15px; font-weight: 700; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(124,58,237,0.4); transition: 0.2s; }
+    .btn-main:active { transform: scale(0.98); }
+    
+    .signal-box { margin-top: 20px; background: #0b0e14; border: 1px solid #1e2433; border-radius: 12px; padding: 20px; text-align: center; min-height: 110px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .signal-title { font-size: 11px; color: #71717a; letter-spacing: 1px; text-transform: uppercase; }
+    .signal-res { font-size: 28px; font-weight: 700; margin: 6px 0; }
+    .call { color: #22c55e; text-shadow: 0 0 10px rgba(34,197,94,0.3); }
+    .put { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.3); }
+    .accuracy { font-size: 12px; color: #a1a1aa; }
+
+    /* Modal / Passcode Lock Styling */
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(5,7,11,0.95); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal { background: #131722; padding: 25px; border-radius: 16px; border: 1px solid #2e3548; width: 90%; max-width: 340px; text-align: center; }
+    .modal h3 { font-size: 18px; margin-bottom: 8px; color: #fff; }
+    .modal p { font-size: 12px; color: #71717a; margin-bottom: 16px; }
+    .modal input { width: 100%; padding: 12px; background: #0b0e14; border: 1px solid #2e3548; color: #fff; border-radius: 8px; text-align: center; font-size: 16px; margin-bottom: 14px; outline: none; }
+    .modal-btn { width: 100%; padding: 12px; background: #7c3aed; border: none; color: #fff; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .error-msg { color: #ef4444; font-size: 11px; margin-top: 8px; display: none; }
+  </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Smart Signal Engine</h2>
-    <p class="sub">Win up to 94% OTC Trades</p>
+  <!-- Access Passcode Modal -->
+  <div class="modal-overlay" id="lockModal">
+    <div class="modal">
+      <h3>MHB BOT ACCESS</h3>
+      <p>Enter VIP License Passcode to continue</p>
+      <input type="password" id="passInput" placeholder="Enter Access Code">
+      <button class="modal-btn" onclick="unlockBot()">UNLOCK ENGINE</button>
+      <div class="error-msg" id="errorMsg">Invalid Access Passcode!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="header">
+      <h2>MHB SIGNAL ENGINE</h2>
+      <p>VIP Algorithmic Trading Indicators</p>
+    </div>
 
     <div class="market-switch">
-        <button class="tab active" id="otcTab" onclick="setMarket('OTC')">OTC MARKET</button>
-        <button class="tab" id="realTab" onclick="setMarket('REAL')">REAL MARKET</button>
+      <div class="tab active" id="tabOtc" onclick="switchMarket('otc')">OTC MARKET</div>
+      <div class="tab" id="tabReal" onclick="switchMarket('real')">REAL MARKET</div>
     </div>
 
-    <select id="asset">
-        <option>USD/BDT (OTC)</option>
-        <option>USD/CAD (OTC)</option>
-        <option>USD/BRL (OTC)</option>
-    </select>
+    <div class="input-group">
+      <label>SELECT ASSET / PAIR</label>
+      <select id="assetSelect"></select>
+    </div>
 
     <div class="strategies">
-        <span class="chip">EMA + RSI</span>
-        <span class="chip">Price Action</span>
-        <span class="chip">Bollinger Bands</span>
-        <span class="chip">OTC Trend</span>
+      <span class="chip active">EMA + RSI</span>
+      <span class="chip active">Price Action</span>
+      <span class="chip active">Bollinger Bands</span>
+      <span class="chip active">MHB Trend</span>
     </div>
 
-    <button class="btn" onclick="getSignal()">GENERATE SIGNAL</button>
+    <button class="btn-main" onclick="generateSignal()">GENERATE SIGNAL</button>
 
-    <div class="res-box" id="res">
-        <p style="font-size: 11px; color: #8b95b7;">1-MINUTE SIGNAL</p>
-        <div class="dir" id="dir">PUT</div>
-        <p id="acc" style="font-size: 12px; color: #a5b4fc;"></p>
+    <div class="signal-box">
+      <div class="signal-title">1-MINUTE PREDICTION</div>
+      <div class="signal-res" id="signalResult">READY</div>
+      <div class="accuracy" id="accuracyResult">Select asset & click generate</div>
     </div>
-</div>
+  </div>
 
-<script>
-    function setMarket(type) {
-        document.getElementById('otcTab').classList.toggle('active', type === 'OTC');
-        document.getElementById('realTab').classList.toggle('active', type === 'REAL');
-        const sel = document.getElementById('asset');
-        if(type === 'OTC') {
-            sel.innerHTML = '<option>USD/BDT (OTC)</option><option>USD/CAD (OTC)</option><option>USD/BRL (OTC)</option>';
-        } else {
-            sel.innerHTML = '<option>EUR/USD</option><option>GBP/USD</option><option>AUD/CAD</option>';
-        }
+  <script>
+    const otcAssets = ["USD/BDT (OTC)", "USD/BRL (OTC)", "EUR/USD (OTC)", "USD/INR (OTC)", "USD/PKR (OTC)", "USD/EGP (OTC)"];
+    const realAssets = ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "EUR/GBP"];
+    
+    let currentMarket = 'otc';
+
+    function loadAssets() {
+      const select = document.getElementById("assetSelect");
+      select.innerHTML = "";
+      const list = currentMarket === 'otc' ? otcAssets : realAssets;
+      list.forEach(asset => {
+        const opt = document.createElement("option");
+        opt.value = asset;
+        opt.innerText = asset;
+        select.appendChild(opt);
+      });
     }
 
-    function getSignal() {
-        const res = document.getElementById('res');
-        const dir = document.getElementById('dir');
-        const acc = document.getElementById('acc');
+    function switchMarket(type) {
+      currentMarket = type;
+      document.getElementById("tabOtc").classList.toggle("active", type === 'otc');
+      document.getElementById("tabReal").classList.toggle("active", type === 'real');
+      loadAssets();
+    }
+
+    function unlockBot() {
+      const pass = document.getElementById("passInput").value;
+      // Master passcode set to: MHB2026
+      if (pass === "MHB2026" || pass === "mhb2026") {
+        document.getElementById("lockModal").style.display = "none";
+      } else {
+        document.getElementById("errorMsg").style.display = "block";
+      }
+    }
+
+    function generateSignal() {
+      const res = document.getElementById("signalResult");
+      const acc = document.getElementById("accuracyResult");
+      
+      res.innerText = "ANALYZING...";
+      res.className = "signal-res";
+      acc.innerText = "Checking market indicators...";
+
+      setTimeout(() => {
+        const isCall = Math.random() > 0.45;
+        const accuracy = (89 + Math.random() * 8).toFixed(1);
         
-        res.style.display = 'block';
-        dir.innerText = "ANALYZING...";
-        dir.className = "dir";
-        acc.innerText = "Checking 250 candles...";
-
-        setTimeout(() => {
-            const isCall = Math.random() > 0.5;
-            dir.innerText = isCall ? "CALL ⬆" : "PUT ⬇";
-            dir.className = "dir " + (isCall ? "CALL" : "PUT");
-            acc.innerText = "Accuracy: " + (92 + Math.random() * 5).toFixed(1) + "%";
-        }, 1200);
+        if (isCall) {
+          res.innerText = "CALL ↑";
+          res.className = "signal-res call";
+        } else {
+          res.innerText = "PUT ↓";
+          res.className = "signal-res put";
+        }
+        acc.innerText = "Accuracy: " + accuracy + "%";
+      }, 1000);
     }
-</script>
 
+    loadAssets();
+  </script>
 </body>
-  </html>
-  
+        </html>
+        
