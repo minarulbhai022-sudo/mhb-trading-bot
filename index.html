@@ -3,100 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MHB Signal Engine V2</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>MHB Signal Engine</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-    body { background: #0b0e14; color: #ffffff; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 15px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+    body { background: #08090d; color: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 15px; }
     
-    .card { background: #131722; width: 100%; max-width: 420px; border-radius: 16px; border: 1px solid #1e2433; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; }
+    .card { background: #0e1118; width: 100%; max-width: 380px; border-radius: 24px; border: 1px solid #1a1f2c; padding: 24px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative; }
     
-    .header { text-align: center; margin-bottom: 20px; }
-    .header h2 { font-size: 22px; font-weight: 700; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; }
-    .header p { font-size: 12px; color: #71717a; margin-top: 4px; }
+    /* Market Switcher */
+    .market-switch { display: flex; background: #08090d; padding: 5px; border-radius: 14px; margin-bottom: 22px; border: 1px solid #161b26; }
+    .tab { flex: 1; padding: 12px; text-align: center; font-size: 12px; font-weight: 800; cursor: pointer; border-radius: 10px; color: #6b7280; letter-spacing: 0.5px; transition: 0.3s; }
+    .tab.active { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; box-shadow: 0 4px 15px rgba(139,92,246,0.4); }
     
-    .market-switch { display: flex; background: #0b0e14; padding: 4px; border-radius: 10px; margin-bottom: 18px; border: 1px solid #1e2433; }
-    .tab { flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 8px; color: #71717a; transition: 0.3s; }
-    .tab.active { background: #7c3aed; color: #fff; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+    /* Input Groups */
+    .input-group { margin-bottom: 18px; }
+    label { display: block; font-size: 11px; color: #6b7280; margin-bottom: 8px; font-weight: 700; letter-spacing: 1px; }
+    select { width: 100%; padding: 14px; background: #08090d; border: 1px solid #1c2230; color: #fff; border-radius: 12px; font-size: 14px; font-weight: 700; outline: none; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; }
     
-    .input-group { margin-bottom: 16px; }
-    label { display: block; font-size: 12px; color: #a1a1aa; margin-bottom: 6px; font-weight: 500; }
-    select { width: 100%; padding: 12px; background: #1a1e2d; border: 1px solid #2e3548; color: #fff; border-radius: 10px; font-size: 14px; outline: none; }
+    /* Active Strategies */
+    .section-title { text-align: center; font-size: 11px; color: #6b7280; font-weight: 700; letter-spacing: 1px; margin: 20px 0 12px; }
+    .strategies { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
+    .chip { font-size: 11px; background: rgba(139,92,246,0.08); border: 1px solid #6366f1; color: #d8b4fe; padding: 7px 14px; border-radius: 10px; font-weight: 600; }
     
-    .strategies { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .chip { font-size: 11px; background: #1a1e2d; border: 1px solid #2e3548; color: #a1a1aa; padding: 6px 12px; border-radius: 20px; }
-    .chip.active { border-color: #7c3aed; color: #c084fc; background: rgba(124,58,237,0.1); }
+    /* Usage Pill */
+    .usage-pill { text-align: center; background: #131722; color: #9ca3af; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 20px; width: fit-content; margin: 0 auto 25px; border: 1px solid #1f293d; }
     
-    .btn-main { width: 100%; padding: 14px; background: linear-gradient(135deg, #7c3aed, #6d28d9); border: none; color: #fff; font-size: 15px; font-weight: 700; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(124,58,237,0.4); transition: 0.2s; }
-    .btn-main:active { transform: scale(0.98); }
+    /* Circular Generate Button */
+    .btn-container { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
+    .circular-btn { width: 170px; height: 170px; border-radius: 50%; background: radial-gradient(circle, #0e1118 40%, #08090d 100%); border: 2px solid #8b5cf6; box-shadow: 0 0 25px rgba(139,92,246,0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; position: relative; }
+    .circular-btn:active { transform: scale(0.95); box-shadow: 0 0 35px rgba(139,92,246,0.6); }
+    .bolt-icon { color: #a855f7; margin-bottom: 8px; }
+    .btn-text { font-size: 13px; font-weight: 800; color: #ffffff; letter-spacing: 1px; text-align: center; line-height: 1.2; }
+    .wave-line { margin-top: 8px; color: #8b5cf6; font-size: 16px; opacity: 0.8; }
     
-    .signal-box { margin-top: 20px; background: #0b0e14; border: 1px solid #1e2433; border-radius: 12px; padding: 20px; text-align: center; min-height: 110px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-    .signal-title { font-size: 11px; color: #71717a; letter-spacing: 1px; text-transform: uppercase; }
-    .signal-res { font-size: 28px; font-weight: 700; margin: 6px 0; }
-    .call { color: #22c55e; text-shadow: 0 0 10px rgba(34,197,94,0.3); }
-    .put { color: #ef4444; text-shadow: 0 0 10px rgba(239,68,68,0.3); }
-    .accuracy { font-size: 12px; color: #a1a1aa; }
-
-    /* Modal / Passcode Lock Styling */
-    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(5,7,11,0.95); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 100; }
-    .modal { background: #131722; padding: 25px; border-radius: 16px; border: 1px solid #2e3548; width: 90%; max-width: 340px; text-align: center; }
-    .modal h3 { font-size: 18px; margin-bottom: 8px; color: #fff; }
-    .modal p { font-size: 12px; color: #71717a; margin-bottom: 16px; }
-    .modal input { width: 100%; padding: 12px; background: #0b0e14; border: 1px solid #2e3548; color: #fff; border-radius: 8px; text-align: center; font-size: 16px; margin-bottom: 14px; outline: none; }
-    .modal-btn { width: 100%; padding: 12px; background: #7c3aed; border: none; color: #fff; border-radius: 8px; font-weight: 600; cursor: pointer; }
-    .error-msg { color: #ef4444; font-size: 11px; margin-top: 8px; display: none; }
+    /* Signal Result Popup/Display */
+    .result-box { display: none; text-align: center; margin-top: 15px; padding: 12px; background: #08090d; border-radius: 12px; border: 1px solid #27272a; }
+    .call-text { color: #22c55e; font-size: 20px; font-weight: 800; }
+    .put-text { color: #ef4444; font-size: 20px; font-weight: 800; }
+    .accuracy-text { font-size: 11px; color: #9ca3af; margin-top: 4px; }
   </style>
 </head>
 <body>
 
-  <!-- Access Passcode Modal -->
-  <div class="modal-overlay" id="lockModal">
-    <div class="modal">
-      <h3>MHB BOT ACCESS</h3>
-      <p>Enter VIP License Passcode to continue</p>
-      <input type="password" id="passInput" placeholder="Enter Access Code">
-      <button class="modal-btn" onclick="unlockBot()">UNLOCK ENGINE</button>
-      <div class="error-msg" id="errorMsg">Invalid Access Passcode!</div>
-    </div>
-  </div>
-
   <div class="card">
-    <div class="header">
-      <h2>MHB SIGNAL ENGINE</h2>
-      <p>VIP Algorithmic Trading Indicators</p>
-    </div>
-
     <div class="market-switch">
       <div class="tab active" id="tabOtc" onclick="switchMarket('otc')">OTC MARKET</div>
       <div class="tab" id="tabReal" onclick="switchMarket('real')">REAL MARKET</div>
     </div>
 
     <div class="input-group">
-      <label>SELECT ASSET / PAIR</label>
+      <label>ASSET</label>
       <select id="assetSelect"></select>
     </div>
 
-    <div class="strategies">
-      <span class="chip active">EMA + RSI</span>
-      <span class="chip active">Price Action</span>
-      <span class="chip active">Bollinger Bands</span>
-      <span class="chip active">MHB Trend</span>
+    <div class="input-group">
+      <label>TIMEFRAME</label>
+      <select id="tfSelect">
+        <option value="1">1 MINUTE</option>
+        <option value="2">2 MINUTES</option>
+        <option value="5">5 MINUTES</option>
+      </select>
     </div>
 
-    <button class="btn-main" onclick="generateSignal()">GENERATE SIGNAL</button>
+    <div class="section-title">ACTIVE STRATEGIES</div>
+    <div class="strategies">
+      <span class="chip">EMA + RSI</span>
+      <span class="chip">Price Action</span>
+      <span class="chip">Bollinger Bands</span>
+      <span class="chip">OTC Trend</span>
+      <span class="chip">Support/Resistance</span>
+    </div>
 
-    <div class="signal-box">
-      <div class="signal-title">1-MINUTE PREDICTION</div>
-      <div class="signal-res" id="signalResult">READY</div>
-      <div class="accuracy" id="accuracyResult">Select asset & click generate</div>
+    <div class="usage-pill"><span id="signalsUsed">0</span>/1 Free Signals Used today</div>
+
+    <div class="btn-container">
+      <div class="circular-btn" onclick="generateSignal()">
+        <svg class="bolt-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        <div class="btn-text">GENERATE<br>SIGNAL</div>
+        <div class="wave-line">〰〰</div>
+      </div>
+    </div>
+
+    <div class="result-box" id="resultBox">
+      <div id="signalText"></div>
+      <div class="accuracy-text" id="accuracyText"></div>
     </div>
   </div>
 
   <script>
-    const otcAssets = ["USD/BDT (OTC)", "USD/BRL (OTC)", "EUR/USD (OTC)", "USD/INR (OTC)", "USD/PKR (OTC)", "USD/EGP (OTC)"];
-    const realAssets = ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD", "EUR/GBP"];
-    
+    const otcAssets = ["ADAUSD_otc", "USD/BDT (OTC)", "USD/BRL (OTC)", "EUR/USD (OTC)", "USD/INR (OTC)"];
+    const realAssets = ["EUR/USD", "GBP/USD", "USD/JPY", "AUD/USD", "USD/CAD"];
     let currentMarket = 'otc';
+    let usedCount = 0;
 
     function loadAssets() {
       const select = document.getElementById("assetSelect");
@@ -117,41 +118,35 @@
       loadAssets();
     }
 
-    function unlockBot() {
-      const pass = document.getElementById("passInput").value;
-      // Master passcode set to: MHB2026
-      if (pass === "MHB2026" || pass === "mhb2026") {
-        document.getElementById("lockModal").style.display = "none";
-      } else {
-        document.getElementById("errorMsg").style.display = "block";
-      }
-    }
-
     function generateSignal() {
-      const res = document.getElementById("signalResult");
-      const acc = document.getElementById("accuracyResult");
-      
-      res.innerText = "ANALYZING...";
-      res.className = "signal-res";
-      acc.innerText = "Checking market indicators...";
+      const box = document.getElementById("resultBox");
+      const sigText = document.getElementById("signalText");
+      const accText = document.getElementById("accuracyText");
+
+      box.style.display = "block";
+      sigText.innerText = "ANALYZING...";
+      sigText.className = "";
+      accText.innerText = "Processing indicators...";
 
       setTimeout(() => {
         const isCall = Math.random() > 0.45;
         const accuracy = (89 + Math.random() * 8).toFixed(1);
         
         if (isCall) {
-          res.innerText = "CALL ↑";
-          res.className = "signal-res call";
+          sigText.innerText = "CALL ↑";
+          sigText.className = "call-text";
         } else {
-          res.innerText = "PUT ↓";
-          res.className = "signal-res put";
+          sigText.innerText = "PUT ↓";
+          sigText.className = "put-text";
         }
-        acc.innerText = "Accuracy: " + accuracy + "%";
+        accText.innerText = "Accuracy: " + accuracy + "%";
+
+        usedCount++;
+        document.getElementById("signalsUsed").innerText = usedCount;
       }, 1000);
     }
 
     loadAssets();
   </script>
 </body>
-        </html>
-        
+</html>
