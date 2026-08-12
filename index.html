@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MHB Signal Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +17,7 @@
       --text-muted: #94a3b8;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
 
     body {
       background-color: var(--bg-dark);
@@ -261,26 +261,20 @@
     .modal-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(4, 5, 10, 0.95);
       backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;
-      z-index: 9999;
+      z-index: 99999;
       padding: 15px;
     }
-
-    .modal-overlay.active { display: flex !important; }
 
     .popup-card { background: #0d0f19; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 26px; width: 100%; max-width: 400px; padding: 25px; text-align: center; position: relative; }
     .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.4rem; cursor: pointer; }
 
     .asset-list-modal { display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
     .asset-item { background: #131726; border: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 18px; border-radius: 14px; color: white; font-weight: 700; font-size: 1.05rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-    .asset-item:active, .asset-item.selected { background: #7c3aed; border-color: #a78bfa; }
 
     .p-head { text-align: center; padding-bottom: 10px; }
     .p-check { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #8b5cf6; color: #a78bfa; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 1.3rem; }
@@ -299,7 +293,7 @@
 
     <!-- LANDING VIEW -->
     <div id="landing-view">
-      <div class="top-pill-btn" id="top-login-btn">
+      <div class="top-pill-btn" onclick="openKeyModal()">
         ➔ Login with Premium License
       </div>
 
@@ -313,10 +307,10 @@
       </div>
 
       <div class="action-group">
-        <button class="btn-login-free" id="free-login-btn">
+        <button class="btn-login-free" onclick="loginFree()">
           👤 Login with Free Use
         </button>
-        <button class="btn-login-premium" id="main-premium-btn">
+        <button class="btn-login-premium" onclick="openKeyModal()">
           👑 Login with Premium License
         </button>
       </div>
@@ -332,17 +326,17 @@
         <div class="user-pill" id="user-badge">
           FREE USER
         </div>
-        <button class="logout-pill" id="logout-btn">Logout</button>
+        <button class="logout-pill" onclick="logout()">Logout</button>
       </div>
 
       <div class="dash-box">
         <div class="market-switch">
-          <button class="m-btn active" id="btn-otc">OTC MARKET</button>
-          <button class="m-btn" id="btn-real">REAL MARKET</button>
+          <button class="m-btn active" id="btn-otc" onclick="toggleMarket('otc')">OTC MARKET</button>
+          <button class="m-btn" id="btn-real" onclick="toggleMarket('real')">REAL MARKET</button>
         </div>
 
         <label class="lbl">ASSET</label>
-        <div class="custom-select-trigger" id="asset-trigger">
+        <div class="custom-select-trigger" onclick="openAssetModal()">
           <span id="selected-asset-text">🪙 ADAUSD_otc</span>
           <span style="color: #a78bfa; font-size: 0.9rem;">▼</span>
         </div>
@@ -356,7 +350,7 @@
           0/1 Free Signals Used today
         </div>
 
-        <button class="big-gen-btn" id="gen-signal-btn">
+        <button class="big-gen-btn" onclick="generateSignal()">
           <span style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 6px;">⚡</span>
           <span style="font-weight: 900; font-size: 1.15rem; letter-spacing: 0.5px;">GENERATE<br>SIGNAL</span>
         </button>
@@ -368,7 +362,7 @@
   <!-- ASSET MODAL -->
   <div class="modal-overlay" id="asset-modal">
     <div class="popup-card">
-      <button class="close-btn" id="close-asset-btn">✕</button>
+      <button class="close-btn" onclick="closeAssetModal()">✕</button>
       <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px; text-align: left;">Select Asset</h3>
       <div class="asset-list-modal" id="asset-list-container"></div>
     </div>
@@ -377,14 +371,14 @@
   <!-- KEY MODAL -->
   <div class="modal-overlay" id="key-modal">
     <div class="popup-card">
-      <button class="close-btn" id="close-key-btn">✕</button>
+      <button class="close-btn" onclick="closeKeyModal()">✕</button>
       <div style="width:55px; height:55px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:0 auto 15px auto;">🔑</div>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
       <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Enter your license key to unlock VIP access.</p>
       
       <input type="text" id="license-input" placeholder="Enter License Key..." style="width:100%; padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; text-align:center; outline:none; margin-bottom:18px;">
       
-      <button id="verify-key-btn" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
+      <button onclick="verifyKey()" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
     </div>
   </div>
 
@@ -400,7 +394,7 @@
   <!-- RESULT MODAL -->
   <div class="modal-overlay" id="result-modal">
     <div class="popup-card">
-      <button class="close-btn" id="close-res-btn">✕</button>
+      <button class="close-btn" onclick="closeResultModal()">✕</button>
 
       <div class="p-head">
         <div class="p-check">✓</div>
@@ -443,111 +437,117 @@
   <style> @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } </style>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
-      var isPremium = false;
-      var signalsUsed = 0;
-      var currentMarket = 'otc';
-      var selectedAsset = "🪙 ADAUSD_otc";
+    var validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
+    var isPremium = false;
+    var signalsUsed = 0;
+    var currentMarket = 'otc';
+    var selectedAsset = "🪙 ADAUSD_otc";
 
-      var otcPairs = [
-        { name: "ADAUSD_otc", flag: "🪙" },
-        { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
-        { name: "USD/CAD (OTC)", flag: "🇺🇸🇨🇦" },
-        { name: "USD/CHF (OTC)", flag: "🇺🇸🇨🇭" },
-        { name: "USD/COP (OTC)", flag: "🇺🇸🇨🇴" },
-        { name: "USD/DZD (OTC)", flag: "🇺🇸🇩🇿" },
-        { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" },
-        { name: "USD/INR (OTC)", flag: "🇺🇸🇮🇳" },
-        { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }
-      ];
+    var otcPairs = [
+      { name: "ADAUSD_otc", flag: "🪙" },
+      { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
+      { name: "USD/CAD (OTC)", flag: "🇺🇸🇨🇦" },
+      { name: "USD/CHF (OTC)", flag: "🇺🇸🇨🇭" },
+      { name: "USD/COP (OTC)", flag: "🇺🇸🇨🇴" },
+      { name: "USD/DZD (OTC)", flag: "🇺🇸🇩🇿" },
+      { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" },
+      { name: "USD/INR (OTC)", flag: "🇺🇸🇮🇳" },
+      { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }
+    ];
 
-      var realPairs = [
-        { name: "EUR/USD", flag: "🇪🇺🇺🇸" },
-        { name: "GBP/USD", flag: "🇬🇧🇺🇸" },
-        { name: "USD/JPY", flag: "🇺🇸🇯🇵" },
-        { name: "AUD/CAD", flag: "🇦🇺🇨🇦" },
-        { name: "USD/CHF", flag: "🇺🇸🇨🇭" }
-      ];
+    var realPairs = [
+      { name: "EUR/USD", flag: "🇪🇺🇺🇸" },
+      { name: "GBP/USD", flag: "🇬🇧🇺🇸" },
+      { name: "USD/JPY", flag: "🇺🇸🇯🇵" },
+      { name: "AUD/CAD", flag: "🇦🇺🇨🇦" },
+      { name: "USD/CHF", flag: "🇺🇸🇨🇭" }
+    ];
 
-      function bindClick(id, handler) {
-        var el = document.getElementById(id);
-        if (el) {
-          el.addEventListener("click", handler);
-          el.addEventListener("touchend", function (e) {
-            e.preventDefault();
-            handler();
-          });
+    function openKeyModal() {
+      var modal = document.getElementById('key-modal');
+      if (modal) modal.style.display = 'flex';
+
+      // Fallback for restricted in-app browsers
+      setTimeout(function() {
+        if (!isPremium && document.getElementById('landing-view').style.display !== 'none') {
+          var inputKey = prompt("Enter License Key (e.g. SF-PRO-9821):");
+          if (inputKey) {
+            document.getElementById('license-input').value = inputKey;
+            verifyKey();
+          }
         }
-      }
+      }, 300);
+    }
 
-      function openModal(id) {
-        var m = document.getElementById(id);
-        if (m) m.classList.add("active");
-      }
+    function closeKeyModal() { document.getElementById('key-modal').style.display = 'none'; }
+    function openAssetModal() { renderAssetList(); document.getElementById('asset-modal').style.display = 'flex'; }
+    function closeAssetModal() { document.getElementById('asset-modal').style.display = 'none'; }
+    function closeResultModal() { document.getElementById('result-modal').style.display = 'none'; }
 
-      function closeModal(id) {
-        var m = document.getElementById(id);
-        if (m) m.classList.remove("active");
-      }
+    function loginFree() {
+      isPremium = false;
+      document.getElementById('landing-view').style.display = 'none';
+      document.getElementById('dashboard-view').style.display = 'block';
+      document.getElementById('user-badge').innerText = 'FREE USER (OFFLINE)';
+      document.getElementById('usage-text').innerText = signalsUsed + '/1 Free Signals Used today';
+    }
 
-      bindClick("top-login-btn", function () { openModal("key-modal"); });
-      bindClick("main-premium-btn", function () { openModal("key-modal"); });
-      bindClick("close-key-btn", function () { closeModal("key-modal"); });
-      bindClick("asset-trigger", function () { renderAssetList(); openModal("asset-modal"); });
-      bindClick("close-asset-btn", function () { closeModal("asset-modal"); });
-      bindClick("close-res-btn", function () { closeModal("result-modal"); });
-
-      bindClick("free-login-btn", function () {
-        isPremium = false;
+    function verifyKey() {
+      var key = document.getElementById('license-input').value.trim();
+      if (validKeys.indexOf(key) !== -1) {
+        isPremium = true;
+        closeKeyModal();
         document.getElementById('landing-view').style.display = 'none';
         document.getElementById('dashboard-view').style.display = 'block';
-        document.getElementById('user-badge').innerText = 'FREE USER (OFFLINE)';
-        document.getElementById('usage-text').innerText = signalsUsed + '/1 Free Signals Used today';
-      });
+        document.getElementById('user-badge').innerText = 'PREMIUM VIP ACTIVE';
+        document.getElementById('user-badge').style.borderColor = '#f59e0b';
+        document.getElementById('user-badge').style.color = '#f59e0b';
+        document.getElementById('usage-text').innerText = 'Unlimited Premium Signals Enabled';
+        alert('🎉 License Activated Successfully!');
+      } else if (key !== "") {
+        alert('Invalid Key! Try: SF-PRO-9821');
+      }
+    }
 
-      bindClick("verify-key-btn", function () {
-        var key = document.getElementById('license-input').value.trim();
-        if (validKeys.indexOf(key) !== -1) {
-          isPremium = true;
-          closeModal("key-modal");
-          document.getElementById('landing-view').style.display = 'none';
-          document.getElementById('dashboard-view').style.display = 'block';
-          document.getElementById('user-badge').innerText = 'PREMIUM VIP ACTIVE';
-          document.getElementById('user-badge').style.borderColor = '#f59e0b';
-          document.getElementById('user-badge').style.color = '#f59e0b';
-          document.getElementById('usage-text').innerText = 'Unlimited Premium Signals Enabled';
-        } else {
-          alert('Invalid Key! Try: SF-PRO-9821');
-        }
-      });
+    function logout() {
+      document.getElementById('dashboard-view').style.display = 'none';
+      document.getElementById('landing-view').style.display = 'flex';
+    }
 
-      bindClick("logout-btn", function () {
-        document.getElementById('dashboard-view').style.display = 'none';
-        document.getElementById('landing-view').style.display = 'flex';
-      });
-
-      bindClick("btn-otc", function () {
-        currentMarket = 'otc';
+    function toggleMarket(type) {
+      currentMarket = type;
+      if(type === 'otc') {
         document.getElementById('btn-otc').className = 'm-btn active';
         document.getElementById('btn-real').className = 'm-btn';
         selectedAsset = "🪙 ADAUSD_otc";
-        document.getElementById('selected-asset-text').innerText = selectedAsset;
-      });
-
-      bindClick("btn-real", function () {
-        currentMarket = 'real';
+      } else {
         document.getElementById('btn-real').className = 'm-btn active';
         document.getElementById('btn-otc').className = 'm-btn';
         selectedAsset = "🇪🇺🇺🇸 EUR/USD";
-        document.getElementById('selected-asset-text').innerText = selectedAsset;
-      });
+      }
+      document.getElementById('selected-asset-text').innerText = selectedAsset;
+    }
 
-      function renderAssetList() {
-        var container = document.getElementById('asset-list-container');
-        var pairs = currentMarket === 'otc' ? otcPairs : realPairs;
-        container.innerHTML = '';
+    function renderAssetList() {
+      var container = document.getElementById('asset-list-container');
+      var pairs = currentMarket === 'otc' ? otcPairs : realPairs;
+      container.innerHTML = '';
 
-        for (var i = 0; i < pairs.length; i++) {
-          (function (pair) {
-   
+      for(var i=0; i<pairs.length; i++) {
+        (function(pair){
+          var fullText = pair.flag + ' ' + pair.name;
+          var item = document.createElement('div');
+          item.className = 'asset-item';
+          item.innerHTML = '<span>' + fullText + '</span>';
+          item.onclick = function() {
+            selectedAsset = fullText;
+            document.getElementById('selected-asset-text').innerText = selectedAsset;
+            closeAssetModal();
+          };
+          container.appendChild(item);
+        })(pairs[i]);
+      }
+    }
+
+    function generateSignal() {
+      var maxL
