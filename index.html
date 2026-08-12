@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- FORCE DEPLOYMENT VERSION 2.0 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -34,11 +35,9 @@
 
     .app-container { width: 100%; max-width: 420px; text-align: center; }
 
-    /* Views control */
     #dashboard-view { display: none; width: 100%; }
     #landing-view { display: flex; flex-direction: column; align-items: center; width: 100%; }
 
-    /* Top Green Pill */
     .top-pill-btn {
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.3);
@@ -54,7 +53,6 @@
       cursor: pointer;
     }
 
-    /* Main Headline */
     .hero-title {
       font-size: 2.2rem;
       font-weight: 800;
@@ -72,7 +70,6 @@
       margin-bottom: 35px;
     }
 
-    /* Feature Pills */
     .pills-group { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; margin-bottom: 40px; }
     .feature-pill {
       background: rgba(23, 25, 45, 0.7);
@@ -88,7 +85,6 @@
       width: fit-content;
     }
 
-    /* Login Action Buttons */
     .action-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
     
     .btn-login-free {
@@ -107,7 +103,6 @@
       gap: 10px;
       transition: all 0.2s ease;
     }
-    .btn-login-free:active { background: rgba(255, 255, 255, 0.1); transform: scale(0.98); }
 
     .btn-login-premium {
       width: 100%;
@@ -126,9 +121,7 @@
       box-shadow: 0 8px 25px var(--purple-glow);
       transition: all 0.2s ease;
     }
-    .btn-login-premium:active { transform: scale(0.98); }
 
-    /* DASHBOARD STYLES */
     .dash-box {
       background: rgba(13, 15, 25, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -143,7 +136,6 @@
     .select-card { width: 100%; background: #121524; border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 14px; padding: 12px 15px; color: white; font-weight: 700; outline: none; margin-bottom: 18px; }
     .big-gen-btn { width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(124,58,237,0.2) 0%, rgba(13,15,25,1) 80%); border: 3px solid #7c3aed; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto 0 auto; cursor: pointer; box-shadow: 0 0 35px var(--purple-glow); }
 
-    /* MODAL POPUPS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 5, 10, 0.95); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
     .popup-card { background: #0d0f19; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; width: 100%; max-width: 380px; padding: 25px; text-align: center; position: relative; }
     .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.3rem; cursor: pointer; }
@@ -153,7 +145,7 @@
 
   <div class="app-container">
 
-    <!-- LANDING / LOGIN PAGE VIEW -->
+    <!-- LANDING PAGE VIEW -->
     <div id="landing-view">
       <div class="top-pill-btn" onclick="openKeyModal()">
         <i class="ph ph-sign-in"></i> Login with Premium License
@@ -178,7 +170,7 @@
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD VIEW -->
+    <!-- DASHBOARD VIEW -->
     <div id="dashboard-view">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <div style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color:#10b981; padding: 6px 14px; border-radius:20px; font-size:0.75rem; font-weight:700;" id="user-badge">
@@ -215,7 +207,7 @@
 
   </div>
 
-  <!-- KEY POPUP MODAL -->
+  <!-- KEY MODAL -->
   <div class="modal-overlay" id="key-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeKeyModal()">✕</button>
@@ -307,5 +299,5 @@
     }
   </script>
 </body>
-          </html>
-  
+  </html>
+        
