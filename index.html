@@ -28,58 +28,36 @@
       justify-content: center;
       padding: 20px 15px;
     }
-    .app-container { width: 100%; max-width: 460px; text-align: center; }
+    .app-container { width: 100%; max-width: 460px; text-align: center; position: relative; }
     #dashboard-view { display: none; width: 100%; }
     #landing-view { display: flex; flex-direction: column; align-items: center; width: 100%; }
     #admin-view { display: none; width: 100%; text-align: left; }
     
     .top-pill-btn {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #10b981;
-      padding: 10px 22px;
-      border-radius: 20px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 25px;
-      cursor: pointer;
+      background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981; padding: 10px 22px; border-radius: 20px; font-size: 0.95rem;
+      font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px; cursor: pointer;
     }
     .hero-title {
-      font-size: 2.4rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 12px;
+      font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px;
       background: linear-gradient(180deg, #93c5fd 0%, #a78bfa 50%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
     .hero-subtitle { color: #e2e8f0; font-size: 1.25rem; font-weight: 700; margin-bottom: 35px; }
     .pills-group { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; margin-bottom: 35px; }
     .feature-pill {
-      background: rgba(23, 25, 45, 0.7);
-      border: 1px solid rgba(139, 92, 246, 0.25);
-      color: #cbd5e1;
-      padding: 12px 26px;
-      border-radius: 25px;
-      font-size: 1rem;
-      font-weight: 600;
+      background: rgba(23, 25, 45, 0.7); border: 1px solid rgba(139, 92, 246, 0.25);
+      color: #cbd5e1; padding: 12px 26px; border-radius: 25px; font-size: 1rem; font-weight: 600;
     }
     .action-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
     .btn-login-free {
-      width: 100%; padding: 18px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 30px; color: white;
+      width: 100%; padding: 18px; background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 30px; color: white;
       font-size: 1.1rem; font-weight: 700; cursor: pointer;
     }
     .btn-login-premium {
-      width: 100%; padding: 20px;
-      background: var(--purple-gradient); border: none;
-      border-radius: 30px; color: white;
-      font-size: 1.2rem; font-weight: 800; cursor: pointer;
+      width: 100%; padding: 20px; background: var(--purple-gradient); border: none;
+      border-radius: 30px; color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer;
       box-shadow: 0 8px 25px var(--purple-glow);
     }
     .contact-support-btn {
@@ -89,10 +67,8 @@
       background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25);
     }
     .dash-box {
-      background: rgba(13, 15, 25, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 28px; padding: 24px; text-align: left;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      background: rgba(13, 15, 25, 0.95); border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 28px; padding: 24px; text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
     .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
     .user-pill {
@@ -147,7 +123,10 @@
   </style>
 </head>
 <body>
-  <div class="app-container">
+
+  <!-- Full App Container to bind tap events -->
+  <div class="app-container" id="main-container">
+    
     <!-- LANDING VIEW -->
     <div id="landing-view">
       <div class="top-pill-btn" onclick="openKeyModal()">➔ Login with Premium License</div>
@@ -191,18 +170,18 @@
       </div>
     </div>
 
-    <!-- ADMIN VIEW (Secret Protected) -->
+    <!-- ADMIN VIEW -->
     <div id="admin-view" class="dash-box">
       <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Admin License Generator</h2>
       <label class="lbl">CREATE NEW KEY</label>
-      <input type="text" id="new-key" value="SF-PRO-" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; outline:none; margin-bottom:15px;">
+      <input type="text" id="new-key" value="MHB-" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; outline:none; margin-bottom:15px;">
       <button onclick="createLicense()" style="width:100%; padding:14px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; cursor:pointer; margin-bottom:10px;">Save Key to Database</button>
       <button onclick="hideAdmin()" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:#94a3b8; font-weight:700; cursor:pointer;">← Back to Bot</button>
       <p id="admin-status" style="text-align: center; margin-top: 15px; font-size: 0.9rem;"></p>
     </div>
-  </div>
+  </div> <!-- End App Container -->
 
-  <!-- MODALS -->
+  <!-- MODALS (Attached to body) -->
   <div class="modal-overlay" id="asset-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeAssetModal()">✕</button>
@@ -217,8 +196,9 @@
       <div style="width:55px; height:55px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:0 auto 15px auto;">🔑</div>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
       <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Enter your license key from admin panel.</p>
+      <!-- ADDED id="verify-btn" to the button for proper event binding -->
       <input type="text" id="license-input" placeholder="Enter License Key..." style="width:100%; padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; text-align:center; outline:none; margin-bottom:18px;">
-      <button onclick="verifyKeyFromFirebase()" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
+      <button id="verify-btn" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
     </div>
   </div>
 
@@ -272,28 +252,30 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    var isPremium = false;
-    var currentMarket = 'otc';
-    var selectedAsset = "🪙 ADAUSD_otc";
+    window.isPremium = false;
+    window.currentMarket = 'otc';
+    window.selectedAsset = "🪙 ADAUSD_otc";
 
-    var otcPairs = [{ name: "ADAUSD_otc", flag: "🪙" }, { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" }, { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }];
-    var realPairs = [{ name: "EUR/USD", flag: "🇪🇺🇺🇸" }, { name: "GBP/USD", flag: "🇬🇧🇺🇸" }];
+    const otcPairs = [{ name: "ADAUSD_otc", flag: "🪙" }, { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" }, { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }];
+    const realPairs = [{ name: "EUR/USD", flag: "🇪🇺🇺🇸" }, { name: "GBP/USD", flag: "🇬🇧🇺🇸" }];
 
+    // Modal Control
     window.openKeyModal = () => document.getElementById('key-modal').style.display = 'flex';
     window.closeKeyModal = () => document.getElementById('key-modal').style.display = 'none';
     window.openAssetModal = () => { renderAssetList(); document.getElementById('asset-modal').style.display = 'flex'; };
     window.closeAssetModal = () => document.getElementById('asset-modal').style.display = 'none';
     window.closeResultModal = () => document.getElementById('result-modal').style.display = 'none';
 
-    // Secret Admin Trigger: 5 times tap anywhere on screen
+    // Secret Admin Trigger
     let tapCount = 0;
-    document.addEventListener('click', (e) => {
-      // Don't trigger if clicking buttons/inputs
+    let tapTimeout;
+    document.getElementById('main-container').addEventListener('click', (e) => {
       if(['BUTTON', 'INPUT', 'SPAN', 'A'].includes(e.target.tagName)) return;
       tapCount++;
-      if (tapCount === 5) {
+      clearTimeout(tapTimeout);
+      if (tapCount >= 5) {
         const pass = prompt("Enter Admin Password:");
-        if (pass === "Minar123") { // Yahan apna password change kar sakte ho
+        if (pass === "Minar123") {
           document.getElementById('landing-view').style.display = 'none';
           document.getElementById('dashboard-view').style.display = 'none';
           document.getElementById('admin-view').style.display = 'block';
@@ -301,8 +283,9 @@
           alert("Wrong Password!");
         }
         tapCount = 0;
+      } else {
+        tapTimeout = setTimeout(() => tapCount = 0, 1500);
       }
-      setTimeout(() => tapCount = 0, 2000);
     });
 
     window.hideAdmin = () => {
@@ -311,36 +294,67 @@
     };
 
     window.loginFree = () => {
-      isPremium = false;
+      window.isPremium = false;
+      document.getElementById('user-badge').innerText = "FREE USER";
+      document.getElementById('user-badge').style.color = "#10b981";
+      document.getElementById('user-badge').style.borderColor = "#10b981";
+      document.getElementById('user-badge').style.background = "rgba(16,185,129,0.15)";
+      
       document.getElementById('landing-view').style.display = 'none';
       document.getElementById('dashboard-view').style.display = 'block';
     };
 
-    window.verifyKeyFromFirebase = () => {
-      var keyInput = document.getElementById('license-input').value.trim();
-      if (!keyInput) { alert('Enter key!'); return; }
+    // Firebase Verify Button Binding
+    document.getElementById('verify-btn').addEventListener('click', () => {
+      const keyInput = document.getElementById('license-input').value.trim();
+      if (!keyInput) { alert('Please enter a valid key!'); return; }
+      
+      const btn = document.getElementById('verify-btn');
+      btn.innerText = "Verifying...";
+      btn.disabled = true;
+
       get(child(ref(db), 'licenses/' + keyInput)).then((snapshot) => {
         if (snapshot.exists()) {
-          isPremium = true;
-          closeKeyModal();
-          document.getElementById('landing-view').style.display = 'none';
-          document.getElementById('dashboard-view').style.display = 'block';
-          alert('Activated Successfully!');
+          const data = snapshot.val();
+          if(data.active) {
+            window.isPremium = true;
+            closeKeyModal();
+            document.getElementById('landing-view').style.display = 'none';
+            document.getElementById('dashboard-view').style.display = 'block';
+            
+            // UI Change for Premium
+            document.getElementById('user-badge').innerText = "PREMIUM 👑";
+            document.getElementById('user-badge').style.color = "#a78bfa";
+            document.getElementById('user-badge').style.borderColor = "#a78bfa";
+            document.getElementById('user-badge').style.background = "rgba(139,92,246,0.15)";
+            document.getElementById('usage-text').innerText = "Unlimited Premium Signals";
+            
+            alert('Premium Activated Successfully!');
+          } else {
+            alert('This key has been revoked or is inactive.');
+          }
         } else {
-          alert('Invalid Key!');
+          alert('Invalid Key! Please check and try again.');
         }
+      }).catch((error) => {
+        alert("Error verifying key: " + error.message);
+      }).finally(() => {
+        btn.innerText = "✓ Verify License";
+        btn.disabled = false;
       });
-    };
+    });
 
     window.createLicense = () => {
       const key = document.getElementById('new-key').value.trim();
       const status = document.getElementById('admin-status');
-      if(!key) { status.innerText = "Key daalo!"; status.style.color = "red"; return; }
+      if(!key) { status.innerText = "Please enter a key format!"; status.style.color = "red"; return; }
 
       set(ref(db, 'licenses/' + key), { active: true, created: new Date().toISOString() })
       .then(() => {
         status.style.color = "#10b981";
-        status.innerText = "Key successfully generate ho gayi!";
+        status.innerText = "Key " + key + " generated successfully!";
+        // Auto increment for next key
+        document.getElementById('new-key').value = "MHB-" + Math.floor(Math.random() * 9000 + 1000);
       })
       .catch((error) => {
         status.style.color = "red";
@@ -349,40 +363,5 @@
     };
 
     window.logout = () => {
-      document.getElementById('dashboard-view').style.display = 'none';
-      document.getElementById('landing-view').style.display = 'flex';
-    };
-
-    window.toggleMarket = (type) => {
-      currentMarket = type;
-      selectedAsset = type === 'otc' ? "🪙 ADAUSD_otc" : "🇪🇺🇺🇸 EUR/USD";
-      document.getElementById('selected-asset-text').innerText = selectedAsset;
-    };
-
-    function renderAssetList() {
-      var container = document.getElementById('asset-list-container');
-      var pairs = currentMarket === 'otc' ? otcPairs : realPairs;
-      container.innerHTML = '';
-      pairs.forEach(pair => {
-        var item = document.createElement('div');
-        item.className = 'asset-item';
-        item.innerText = pair.flag + ' ' + pair.name;
-        item.onclick = () => { selectedAsset = item.innerText; document.getElementById('selected-asset-text').innerText = selectedAsset; closeAssetModal(); };
-        container.appendChild(item);
-      });
-    }
-
-    window.generateSignal = () => {
-      document.getElementById('wait-modal').style.display = 'flex';
-      setTimeout(() => {
-        document.getElementById('wait-modal').style.display = 'none';
-        document.getElementById('res-time').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        document.getElementById('res-asset').innerText = selectedAsset;
-        document.getElementById('res-price').innerText = (Math.random() * 0.5 + 1.0).toFixed(4);
-        document.getElementById('result-modal').style.display = 'flex';
-      }, 2000);
-    };
-  </script>
-</body>
-  </html>
-      
+      window.isPremium = false;
+      document.getElementById('dashboard-view').style.d
