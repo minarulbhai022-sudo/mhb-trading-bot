@@ -124,7 +124,6 @@
 </head>
 <body>
 
-  <!-- Full App Container to bind tap events -->
   <div class="app-container" id="main-container">
     
     <!-- LANDING VIEW -->
@@ -175,13 +174,22 @@
       <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Admin License Generator</h2>
       <label class="lbl">CREATE NEW KEY</label>
       <input type="text" id="new-key" value="MHB-" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; outline:none; margin-bottom:15px;">
+      
+      <label class="lbl">SELECT DURATION</label>
+      <select id="key-duration" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:#0d0f1a; color:white; font-size:1rem; outline:none; margin-bottom:15px; font-weight:700;">
+        <option value="1">1 Minute</option>
+        <option value="5">5 Minutes</option>
+        <option value="30">30 Minutes</option>
+        <option value="1440">1 Day (24 Hours)</option>
+      </select>
+
       <button onclick="createLicense()" style="width:100%; padding:14px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; cursor:pointer; margin-bottom:10px;">Save Key to Database</button>
       <button onclick="hideAdmin()" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:#94a3b8; font-weight:700; cursor:pointer;">← Back to Bot</button>
       <p id="admin-status" style="text-align: center; margin-top: 15px; font-size: 0.9rem;"></p>
     </div>
-  </div> <!-- End App Container -->
+  </div>
 
-  <!-- MODALS (Attached to body) -->
+  <!-- MODALS -->
   <div class="modal-overlay" id="asset-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeAssetModal()">✕</button>
@@ -196,7 +204,6 @@
       <div style="width:55px; height:55px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:0 auto 15px auto;">🔑</div>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
       <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Enter your license key from admin panel.</p>
-      <!-- ADDED id="verify-btn" to the button for proper event binding -->
       <input type="text" id="license-input" placeholder="Enter License Key..." style="width:100%; padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; text-align:center; outline:none; margin-bottom:18px;">
       <button id="verify-btn" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
     </div>
@@ -259,18 +266,16 @@
     const otcPairs = [{ name: "ADAUSD_otc", flag: "🪙" }, { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" }, { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }];
     const realPairs = [{ name: "EUR/USD", flag: "🇪🇺🇺🇸" }, { name: "GBP/USD", flag: "🇬🇧🇺🇸" }];
 
-    // Modal Control
     window.openKeyModal = () => document.getElementById('key-modal').style.display = 'flex';
     window.closeKeyModal = () => document.getElementById('key-modal').style.display = 'none';
     window.openAssetModal = () => { renderAssetList(); document.getElementById('asset-modal').style.display = 'flex'; };
     window.closeAssetModal = () => document.getElementById('asset-modal').style.display = 'none';
     window.closeResultModal = () => document.getElementById('result-modal').style.display = 'none';
 
-    // Secret Admin Trigger
     let tapCount = 0;
     let tapTimeout;
     document.getElementById('main-container').addEventListener('click', (e) => {
-      if(['BUTTON', 'INPUT', 'SPAN', 'A'].includes(e.target.tagName)) return;
+      if(['BUTTON', 'INPUT', 'SPAN', 'A', 'SELECT', 'OPTION'].includes(e.target.tagName)) return;
       tapCount++;
       clearTimeout(tapTimeout);
       if (tapCount >= 5) {
@@ -304,7 +309,6 @@
       document.getElementById('dashboard-view').style.display = 'block';
     };
 
-    // Firebase Verify Button Binding
     document.getElementById('verify-btn').addEventListener('click', () => {
       const keyInput = document.getElementById('license-input').value.trim();
       if (!keyInput) { alert('Please enter a valid key!'); return; }
@@ -316,13 +320,14 @@
       get(child(ref(db), 'licenses/' + keyInput)).then((snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          if(data.active) {
+          const currentTime = new Date().getTime();
+
+          if(data.active && currentTime < data.expiresAt) {
             window.isPremium = true;
             closeKeyModal();
             document.getElementById('landing-view').style.display = 'none';
             document.getElementById('dashboard-view').style.display = 'block';
             
-            // UI Change for Premium
             document.getElementById('user-badge').innerText = "PREMIUM 👑";
             document.getElementById('user-badge').style.color = "#a78bfa";
             document.getElementById('user-badge').style.borderColor = "#a78bfa";
@@ -331,7 +336,7 @@
             
             alert('Premium Activated Successfully!');
           } else {
-            alert('This key has been revoked or is inactive.');
+            alert('This key has expired or is invalid!');
           }
         } else {
           alert('Invalid Key! Please check and try again.');
@@ -346,22 +351,15 @@
 
     window.createLicense = () => {
       const key = document.getElementById('new-key').value.trim();
+      const durationMinutes = parseInt(document.getElementById('key-duration').value);
       const status = document.getElementById('admin-status');
       if(!key) { status.innerText = "Please enter a key format!"; status.style.color = "red"; return; }
 
-      set(ref(db, 'licenses/' + key), { active: true, created: new Date().toISOString() })
-      .then(() => {
-        status.style.color = "#10b981";
-        status.innerText = "Key " + key + " generated successfully!";
-        // Auto increment for next key
-        document.getElementById('new-key').value = "MHB-" + Math.floor(Math.random() * 9000 + 1000);
-      })
-      .catch((error) => {
-        status.style.color = "red";
-        status.innerText = "Error: " + error.message;
-      });
-    };
+      const expiresAt = new Date().getTime() + (durationMinutes * 60 * 1000);
 
-    window.logout = () => {
-      window.isPremium = false;
-      document.getElementById('dashboard-view').style.d
+      set(ref(db, 'licenses/' + key), { 
+        active: true, 
+        expiresAt: expiresAt,
+        created: new Date().toISOString() 
+      })
+      .then(
