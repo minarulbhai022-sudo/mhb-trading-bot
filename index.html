@@ -16,9 +16,7 @@
       --text-main: #ffffff;
       --text-muted: #94a3b8;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-
     body {
       background-color: var(--bg-dark);
       background-image: radial-gradient(circle at 50% 20%, #171133 0%, #070913 75%);
@@ -30,12 +28,11 @@
       justify-content: center;
       padding: 20px 15px;
     }
-
     .app-container { width: 100%; max-width: 460px; text-align: center; }
-
     #dashboard-view { display: none; width: 100%; }
     #landing-view { display: flex; flex-direction: column; align-items: center; width: 100%; }
-
+    #admin-view { display: none; width: 100%; text-align: left; }
+    
     .top-pill-btn {
       background: rgba(16, 185, 129, 0.1);
       border: 1px solid rgba(16, 185, 129, 0.3);
@@ -50,7 +47,6 @@
       margin-bottom: 25px;
       cursor: pointer;
     }
-
     .hero-title {
       font-size: 2.4rem;
       font-weight: 800;
@@ -60,14 +56,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-
-    .hero-subtitle {
-      color: #e2e8f0;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 35px;
-    }
-
+    .hero-subtitle { color: #e2e8f0; font-size: 1.25rem; font-weight: 700; margin-bottom: 35px; }
     .pills-group { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; margin-bottom: 35px; }
     .feature-pill {
       background: rgba(23, 25, 45, 0.7);
@@ -77,205 +66,76 @@
       border-radius: 25px;
       font-size: 1rem;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: fit-content;
     }
-
     .action-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-    
     .btn-login-free {
-      width: 100%;
-      padding: 18px;
+      width: 100%; padding: 18px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 30px;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      border-radius: 30px; color: white;
+      font-size: 1.1rem; font-weight: 700; cursor: pointer;
     }
-
     .btn-login-premium {
-      width: 100%;
-      padding: 20px;
-      background: var(--purple-gradient);
-      border: none;
-      border-radius: 30px;
-      color: white;
-      font-size: 1.2rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      width: 100%; padding: 20px;
+      background: var(--purple-gradient); border: none;
+      border-radius: 30px; color: white;
+      font-size: 1.2rem; font-weight: 800; cursor: pointer;
       box-shadow: 0 8px 25px var(--purple-glow);
     }
-
     .contact-support-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 20px;
-      color: #38bdf8;
-      font-size: 0.95rem;
-      font-weight: 700;
-      text-decoration: none;
-      padding: 12px 24px;
-      border-radius: 20px;
-      background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 20px; color: #38bdf8; font-size: 0.95rem; font-weight: 700;
+      text-decoration: none; padding: 12px 24px; border-radius: 20px;
+      background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25);
     }
-
     .dash-box {
       background: rgba(13, 15, 25, 0.95);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 28px;
-      padding: 24px;
-      text-align: left;
+      border-radius: 28px; padding: 24px; text-align: left;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-
-    .status-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 22px;
-    }
-
+    .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
     .user-pill {
-      background: rgba(16,185,129,0.15);
-      border: 1px solid #10b981;
-      color: #10b981;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 800;
+      background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #10b981;
+      padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 800;
     }
-
     .logout-pill {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid #ef4444;
-      color: #ef4444;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
+      background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444;
+      padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 800; cursor: pointer;
     }
-
-    .market-switch {
-      display: flex;
-      background: #121524;
-      padding: 6px;
-      border-radius: 18px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
+    .market-switch { display: flex; background: #121524; padding: 6px; border-radius: 18px; margin-bottom: 24px; }
     .m-btn {
-      flex: 1;
-      padding: 15px;
-      border: none;
-      border-radius: 14px;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 800;
-      font-size: 0.95rem;
-      cursor: pointer;
+      flex: 1; padding: 15px; border: none; border-radius: 14px;
+      background: transparent; color: var(--text-muted); font-weight: 800; cursor: pointer;
     }
-
-    .m-btn.active {
-      background: var(--purple-gradient);
-      color: white;
-      box-shadow: 0 4px 15px var(--purple-glow);
-    }
-
-    .lbl {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      display: block;
-    }
-
+    .m-btn.active { background: var(--purple-gradient); color: white; box-shadow: 0 4px 15px var(--purple-glow); }
+    .lbl { color: var(--text-muted); font-size: 0.85rem; font-weight: 800; margin-bottom: 10px; display: block; }
     .custom-select-trigger {
-      width: 100%;
-      background: #0d0f1a;
-      border: 1.5px solid rgba(139, 92, 246, 0.5);
-      border-radius: 16px;
-      padding: 16px 18px;
-      color: white;
-      font-weight: 800;
-      font-size: 1.1rem;
-      margin-bottom: 22px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 100%; background: #0d0f1a; border: 1.5px solid rgba(139, 92, 246, 0.5);
+      border-radius: 16px; padding: 16px 18px; color: white; font-weight: 800;
+      font-size: 1.1rem; margin-bottom: 22px; cursor: pointer; display: flex; justify-content: space-between;
     }
-
     .timeframe-box {
-      width: 100%;
-      background: #0d0f1a;
-      border: 1.5px solid rgba(139, 92, 246, 0.3);
-      border-radius: 16px;
-      padding: 16px 18px;
-      color: white;
-      font-weight: 800;
-      font-size: 1.1rem;
-      margin-bottom: 22px;
+      width: 100%; background: #0d0f1a; border: 1.5px solid rgba(139, 92, 246, 0.3);
+      border-radius: 16px; padding: 16px 18px; color: white; font-weight: 800; margin-bottom: 22px;
     }
-
-    .usage-label {
-      text-align: center;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      margin: 20px 0 15px 0;
-    }
-
+    .usage-label { text-align: center; font-size: 0.95rem; font-weight: 700; color: var(--text-muted); margin: 20px 0 15px 0; }
     .big-gen-btn {
-      width: 210px;
-      height: 210px;
-      border-radius: 50%;
+      width: 210px; height: 210px; border-radius: 50%;
       background: radial-gradient(circle, rgba(124,58,237,0.25) 0%, rgba(13,15,25,1) 80%);
-      border: 4px solid #7c3aed;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 15px auto 5px auto;
-      cursor: pointer;
+      border: 4px solid #7c3aed; color: white; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; margin: 15px auto 5px auto; cursor: pointer;
       box-shadow: 0 0 45px var(--purple-glow);
     }
-
     .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(4, 5, 10, 0.95);
-      backdrop-filter: blur(8px);
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-      padding: 15px;
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(4, 5, 10, 0.95); backdrop-filter: blur(8px);
+      justify-content: center; align-items: center; z-index: 99999; padding: 15px;
     }
-
     .popup-card { background: #0d0f19; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 26px; width: 100%; max-width: 400px; padding: 25px; text-align: center; position: relative; }
     .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #64748b; font-size: 1.4rem; cursor: pointer; }
-
-    .asset-list-modal { display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
-    .asset-item { background: #131726; border: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 18px; border-radius: 14px; color: white; font-weight: 700; font-size: 1.05rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-
+    .asset-list-modal { display: flex; flex-direction: column; gap: 10px; max-height: 380px; overflow-y: auto; margin-top: 15px; }
+    .asset-item { background: #131726; border: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 18px; border-radius: 14px; color: white; font-weight: 700; text-align: left; cursor: pointer; }
     .p-head { text-align: center; padding-bottom: 10px; }
     .p-check { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #8b5cf6; color: #a78bfa; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 1.3rem; }
     .p-trade-box { margin: 10px 0 15px 0; background: rgba(255, 255, 255, 0.03); border-radius: 14px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
@@ -284,82 +144,65 @@
     .p-arrow { font-size: 3.2rem; line-height: 1; display: inline-block; margin-top: 5px; }
     .p-arrow.call { transform: rotate(180deg); color: #10b981; }
     .p-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-bottom: 15px; background: rgba(255, 255, 255, 0.02); border-radius: 14px; padding: 12px; text-align: center; }
-    .p-foot { background: rgba(16, 185, 129, 0.08); padding: 14px; border-radius: 14px; font-size: 0.78rem; color: #10b981; text-align: center; line-height: 1.4; font-weight: 600; }
   </style>
 </head>
 <body>
-
   <div class="app-container">
-
     <!-- LANDING VIEW -->
     <div id="landing-view">
-      <div class="top-pill-btn" onclick="openKeyModal()">
-        ➔ Login with Premium License
-      </div>
-
+      <div class="top-pill-btn" onclick="openKeyModal()">➔ Login with Premium License</div>
       <h1 class="hero-title">Win up to 94%<br>OTC trades<br>Premium License</h1>
       <p class="hero-subtitle">using Smart Signal Engine</p>
-
       <div class="pills-group">
         <div class="feature-pill">🧠 No analysis needed</div>
         <div class="feature-pill">😊 Beginner friendly</div>
         <div class="feature-pill">⏱️ 1-minute signals</div>
       </div>
-
       <div class="action-group">
-        <button class="btn-login-free" onclick="loginFree()">
-          👤 Login with Free Use
-        </button>
-        <button class="btn-login-premium" onclick="openKeyModal()">
-          👑 Login with Premium License
-        </button>
+        <button class="btn-login-free" onclick="loginFree()">👤 Login with Free Use</button>
+        <button class="btn-login-premium" onclick="openKeyModal()">👑 Login with Premium License</button>
       </div>
-
-      <a href="https://t.me/Minarul_bhai" target="_blank" class="contact-support-btn">
-        ✈️ Contact Support
-      </a>
+      <a href="https://t.me/Minarul_bhai" target="_blank" class="contact-support-btn">✈️ Contact Support</a>
     </div>
 
     <!-- DASHBOARD VIEW -->
     <div id="dashboard-view">
       <div class="status-header">
-        <div class="user-pill" id="user-badge">
-          FREE USER
-        </div>
+        <div class="user-pill" id="user-badge">FREE USER</div>
         <button class="logout-pill" onclick="logout()">Logout</button>
       </div>
-
       <div class="dash-box">
         <div class="market-switch">
           <button class="m-btn active" id="btn-otc" onclick="toggleMarket('otc')">OTC MARKET</button>
           <button class="m-btn" id="btn-real" onclick="toggleMarket('real')">REAL MARKET</button>
         </div>
-
         <label class="lbl">ASSET</label>
         <div class="custom-select-trigger" onclick="openAssetModal()">
           <span id="selected-asset-text">🪙 ADAUSD_otc</span>
-          <span style="color: #a78bfa; font-size: 0.9rem;">▼</span>
+          <span style="color: #a78bfa;">▼</span>
         </div>
-
         <label class="lbl">TIMEFRAME</label>
-        <div class="timeframe-box">
-          ⚡ 1 MINUTE
-        </div>
-
-        <div class="usage-label" id="usage-text">
-          0/1 Free Signals Used today
-        </div>
-
+        <div class="timeframe-box">⚡ 1 MINUTE</div>
+        <div class="usage-label" id="usage-text">0/1 Free Signals Used today</div>
         <button class="big-gen-btn" onclick="generateSignal()">
           <span style="font-size: 2.5rem; color: #f59e0b; margin-bottom: 6px;">⚡</span>
-          <span style="font-weight: 900; font-size: 1.15rem; letter-spacing: 0.5px;">GENERATE<br>SIGNAL</span>
+          <span style="font-weight: 900; font-size: 1.15rem;">GENERATE<br>SIGNAL</span>
         </button>
       </div>
     </div>
 
+    <!-- ADMIN VIEW (Secret Protected) -->
+    <div id="admin-view" class="dash-box">
+      <h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Admin License Generator</h2>
+      <label class="lbl">CREATE NEW KEY</label>
+      <input type="text" id="new-key" value="SF-PRO-" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; outline:none; margin-bottom:15px;">
+      <button onclick="createLicense()" style="width:100%; padding:14px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; cursor:pointer; margin-bottom:10px;">Save Key to Database</button>
+      <button onclick="hideAdmin()" style="width:100%; padding:14px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:#94a3b8; font-weight:700; cursor:pointer;">← Back to Bot</button>
+      <p id="admin-status" style="text-align: center; margin-top: 15px; font-size: 0.9rem;"></p>
+    </div>
   </div>
 
-  <!-- ASSET MODAL -->
+  <!-- MODALS -->
   <div class="modal-overlay" id="asset-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeAssetModal()">✕</button>
@@ -368,186 +211,178 @@
     </div>
   </div>
 
-  <!-- KEY MODAL -->
   <div class="modal-overlay" id="key-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeKeyModal()">✕</button>
       <div style="width:55px; height:55px; border-radius:50%; background:rgba(16,185,129,0.15); color:#10b981; display:flex; align-items:center; justify-content:center; font-size:1.6rem; margin:0 auto 15px auto;">🔑</div>
       <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">Activate Premium</h2>
-      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Enter your license key to unlock VIP access.</p>
-      
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Enter your license key from admin panel.</p>
       <input type="text" id="license-input" placeholder="Enter License Key..." style="width:100%; padding:16px; border-radius:14px; border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.4); color:white; font-size:1rem; text-align:center; outline:none; margin-bottom:18px;">
-      
-      <button onclick="verifyKey()" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
+      <button onclick="verifyKeyFromFirebase()" style="width:100%; padding:16px; border-radius:14px; border:none; background:var(--purple-gradient); color:white; font-weight:800; font-size:1.05rem; cursor:pointer;">✓ Verify License</button>
     </div>
   </div>
 
-  <!-- WAITING MODAL -->
   <div class="modal-overlay" id="wait-modal">
     <div style="text-align: center;">
       <div style="width:90px; height:90px; border-radius:50%; border:4px solid rgba(245,158,11,0.2); border-top:4px solid #f59e0b; margin:0 auto 20px auto; animation: spin 1s linear infinite;"></div>
-      <h2 style="font-size: 1.6rem; font-weight: 800;">WAITING FOR <span style="color:#8b5cf6;">SIGNAL</span></h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Analyzing market conditions...</p>
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: white;">WAITING FOR <span style="color:#8b5cf6;">SIGNAL</span></h2>
     </div>
   </div>
 
-  <!-- RESULT MODAL -->
   <div class="modal-overlay" id="result-modal">
     <div class="popup-card">
       <button class="close-btn" onclick="closeResultModal()">✕</button>
-
       <div class="p-head">
         <div class="p-check">✓</div>
         <h3 style="font-size: 1.4rem; font-weight: 800;">SIGNAL <span style="color:#8b5cf6;">GENERATED</span></h3>
-        <p style="color:var(--text-muted); font-size: 0.8rem; font-weight: 700;">1-MINUTE SIGNAL</p>
       </div>
-
       <div class="p-trade-box">
-        <span style="color:var(--text-muted); font-size: 0.8rem; font-weight: 700;">📅 TRADE TIME</span>
-        <span style="color:#a78bfa; font-weight:800; font-size:1.15rem;" id="res-time">--:--</span>
+        <span style="color:var(--text-muted); font-size: 0.8rem;">📅 TRADE TIME</span>
+        <span style="color:#a78bfa; font-weight:800;" id="res-time">--:--</span>
       </div>
-
       <div class="p-dir-box" id="res-dir-box">
-        <div style="font-size: 0.8rem; font-weight: 800; letter-spacing: 1px;" id="res-dir-lbl">DIRECTION</div>
         <div style="font-size: 2.4rem; font-weight: 900;" id="res-dir-val">PUT</div>
         <div class="p-arrow" id="res-arrow">🔻</div>
       </div>
-
       <div class="p-grid">
-        <div>
-          <div style="color:var(--text-muted); font-size:0.7rem; font-weight:700;">ASSET</div>
-          <div style="font-size:0.85rem; font-weight:800;" id="res-asset">---</div>
-        </div>
-        <div>
-          <div style="color:var(--text-muted); font-size:0.7rem; font-weight:700;">PRICE</div>
-          <div style="font-size:0.85rem; font-weight:800;" id="res-price">---</div>
-        </div>
-        <div>
-          <div style="color:var(--text-muted); font-size:0.7rem; font-weight:700;">ACCURACY</div>
-          <div style="font-size:0.85rem; font-weight:800;">98% 🔥</div>
-        </div>
-      </div>
-
-      <div class="p-foot" id="res-foot">
-        ℹ️ EMA+RSI Bearish | OTC Trend Strong
+        <div><div style="color:var(--text-muted); font-size:0.7rem;">ASSET</div><div style="font-size:0.85rem;" id="res-asset">---</div></div>
+        <div><div style="color:var(--text-muted); font-size:0.7rem;">PRICE</div><div style="font-size:0.85rem;" id="res-price">---</div></div>
+        <div><div style="color:var(--text-muted); font-size:0.7rem;">ACCURACY</div><div style="font-size:0.85rem;">98% 🔥</div></div>
       </div>
     </div>
   </div>
 
   <style> @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } </style>
 
-  <script>
-    var validKeys = ["SF-PRO-9821", "SF-PRO-4410", "SF-PRO-8823"];
+  <!-- FIREBASE & LOGIC SCRIPT -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, get, child, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AizaSyCLoP_DIP2cv8IDTNH",
+      authDomain: "signalbot-31147.firebaseapp.com",
+      projectId: "signalbot-31147",
+      storageBucket: "signalbot-31147.appspot.com",
+      messagingSenderId: "66088209179",
+      appId: "1:66088209179:web:afa4dcf",
+      measurementId: "G-7K362HC597"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
     var isPremium = false;
-    var signalsUsed = 0;
     var currentMarket = 'otc';
     var selectedAsset = "🪙 ADAUSD_otc";
 
-    var otcPairs = [
-      { name: "ADAUSD_otc", flag: "🪙" },
-      { name: "USD/BDT (OTC)", flag: "🇺🇸🇧🇩" },
-      { name: "USD/CAD (OTC)", flag: "🇺🇸🇨🇦" },
-      { name: "USD/CHF (OTC)", flag: "🇺🇸🇨🇭" },
-      { name: "USD/COP (OTC)", flag: "🇺🇸🇨🇴" },
-      { name: "USD/DZD (OTC)", flag: "🇺🇸🇩🇿" },
-      { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" },
-      { name: "USD/INR (OTC)", flag: "🇺🇸🇮🇳" },
-      { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }
-    ];
+    var otcPairs = [{ name: "ADAUSD_otc", flag: "🪙" }, { name: "USD/BRL (OTC)", flag: "🇺🇸🇧🇷" }, { name: "EUR/USD (OTC)", flag: "🇪🇺🇺🇸" }];
+    var realPairs = [{ name: "EUR/USD", flag: "🇪🇺🇺🇸" }, { name: "GBP/USD", flag: "🇬🇧🇺🇸" }];
 
-    var realPairs = [
-      { name: "EUR/USD", flag: "🇪🇺🇺🇸" },
-      { name: "GBP/USD", flag: "🇬🇧🇺🇸" },
-      { name: "USD/JPY", flag: "🇺🇸🇯🇵" },
-      { name: "AUD/CAD", flag: "🇦🇺🇨🇦" },
-      { name: "USD/CHF", flag: "🇺🇸🇨🇭" }
-    ];
+    window.openKeyModal = () => document.getElementById('key-modal').style.display = 'flex';
+    window.closeKeyModal = () => document.getElementById('key-modal').style.display = 'none';
+    window.openAssetModal = () => { renderAssetList(); document.getElementById('asset-modal').style.display = 'flex'; };
+    window.closeAssetModal = () => document.getElementById('asset-modal').style.display = 'none';
+    window.closeResultModal = () => document.getElementById('result-modal').style.display = 'none';
 
-    function openKeyModal() {
-      var modal = document.getElementById('key-modal');
-      if (modal) modal.style.display = 'flex';
-
-      // Fallback for restricted in-app browsers
-      setTimeout(function() {
-        if (!isPremium && document.getElementById('landing-view').style.display !== 'none') {
-          var inputKey = prompt("Enter License Key (e.g. SF-PRO-9821):");
-          if (inputKey) {
-            document.getElementById('license-input').value = inputKey;
-            verifyKey();
-          }
+    // Secret Admin Trigger: 5 times tap anywhere on screen
+    let tapCount = 0;
+    document.addEventListener('click', (e) => {
+      // Don't trigger if clicking buttons/inputs
+      if(['BUTTON', 'INPUT', 'SPAN', 'A'].includes(e.target.tagName)) return;
+      tapCount++;
+      if (tapCount === 5) {
+        const pass = prompt("Enter Admin Password:");
+        if (pass === "Minar123") { // Yahan apna password change kar sakte ho
+          document.getElementById('landing-view').style.display = 'none';
+          document.getElementById('dashboard-view').style.display = 'none';
+          document.getElementById('admin-view').style.display = 'block';
+        } else if(pass !== null) {
+          alert("Wrong Password!");
         }
-      }, 300);
-    }
+        tapCount = 0;
+      }
+      setTimeout(() => tapCount = 0, 2000);
+    });
 
-    function closeKeyModal() { document.getElementById('key-modal').style.display = 'none'; }
-    function openAssetModal() { renderAssetList(); document.getElementById('asset-modal').style.display = 'flex'; }
-    function closeAssetModal() { document.getElementById('asset-modal').style.display = 'none'; }
-    function closeResultModal() { document.getElementById('result-modal').style.display = 'none'; }
+    window.hideAdmin = () => {
+      document.getElementById('admin-view').style.display = 'none';
+      document.getElementById('landing-view').style.display = 'flex';
+    };
 
-    function loginFree() {
+    window.loginFree = () => {
       isPremium = false;
       document.getElementById('landing-view').style.display = 'none';
       document.getElementById('dashboard-view').style.display = 'block';
-      document.getElementById('user-badge').innerText = 'FREE USER (OFFLINE)';
-      document.getElementById('usage-text').innerText = signalsUsed + '/1 Free Signals Used today';
-    }
+    };
 
-    function verifyKey() {
-      var key = document.getElementById('license-input').value.trim();
-      if (validKeys.indexOf(key) !== -1) {
-        isPremium = true;
-        closeKeyModal();
-        document.getElementById('landing-view').style.display = 'none';
-        document.getElementById('dashboard-view').style.display = 'block';
-        document.getElementById('user-badge').innerText = 'PREMIUM VIP ACTIVE';
-        document.getElementById('user-badge').style.borderColor = '#f59e0b';
-        document.getElementById('user-badge').style.color = '#f59e0b';
-        document.getElementById('usage-text').innerText = 'Unlimited Premium Signals Enabled';
-        alert('🎉 License Activated Successfully!');
-      } else if (key !== "") {
-        alert('Invalid Key! Try: SF-PRO-9821');
-      }
-    }
+    window.verifyKeyFromFirebase = () => {
+      var keyInput = document.getElementById('license-input').value.trim();
+      if (!keyInput) { alert('Enter key!'); return; }
+      get(child(ref(db), 'licenses/' + keyInput)).then((snapshot) => {
+        if (snapshot.exists()) {
+          isPremium = true;
+          closeKeyModal();
+          document.getElementById('landing-view').style.display = 'none';
+          document.getElementById('dashboard-view').style.display = 'block';
+          alert('Activated Successfully!');
+        } else {
+          alert('Invalid Key!');
+        }
+      });
+    };
 
-    function logout() {
+    window.createLicense = () => {
+      const key = document.getElementById('new-key').value.trim();
+      const status = document.getElementById('admin-status');
+      if(!key) { status.innerText = "Key daalo!"; status.style.color = "red"; return; }
+
+      set(ref(db, 'licenses/' + key), { active: true, created: new Date().toISOString() })
+      .then(() => {
+        status.style.color = "#10b981";
+        status.innerText = "Key successfully generate ho gayi!";
+      })
+      .catch((error) => {
+        status.style.color = "red";
+        status.innerText = "Error: " + error.message;
+      });
+    };
+
+    window.logout = () => {
       document.getElementById('dashboard-view').style.display = 'none';
       document.getElementById('landing-view').style.display = 'flex';
-    }
+    };
 
-    function toggleMarket(type) {
+    window.toggleMarket = (type) => {
       currentMarket = type;
-      if(type === 'otc') {
-        document.getElementById('btn-otc').className = 'm-btn active';
-        document.getElementById('btn-real').className = 'm-btn';
-        selectedAsset = "🪙 ADAUSD_otc";
-      } else {
-        document.getElementById('btn-real').className = 'm-btn active';
-        document.getElementById('btn-otc').className = 'm-btn';
-        selectedAsset = "🇪🇺🇺🇸 EUR/USD";
-      }
+      selectedAsset = type === 'otc' ? "🪙 ADAUSD_otc" : "🇪🇺🇺🇸 EUR/USD";
       document.getElementById('selected-asset-text').innerText = selectedAsset;
-    }
+    };
 
     function renderAssetList() {
       var container = document.getElementById('asset-list-container');
       var pairs = currentMarket === 'otc' ? otcPairs : realPairs;
       container.innerHTML = '';
-
-      for(var i=0; i<pairs.length; i++) {
-        (function(pair){
-          var fullText = pair.flag + ' ' + pair.name;
-          var item = document.createElement('div');
-          item.className = 'asset-item';
-          item.innerHTML = '<span>' + fullText + '</span>';
-          item.onclick = function() {
-            selectedAsset = fullText;
-            document.getElementById('selected-asset-text').innerText = selectedAsset;
-            closeAssetModal();
-          };
-          container.appendChild(item);
-        })(pairs[i]);
-      }
+      pairs.forEach(pair => {
+        var item = document.createElement('div');
+        item.className = 'asset-item';
+        item.innerText = pair.flag + ' ' + pair.name;
+        item.onclick = () => { selectedAsset = item.innerText; document.getElementById('selected-asset-text').innerText = selectedAsset; closeAssetModal(); };
+        container.appendChild(item);
+      });
     }
 
-    function generateSignal() {
-      var maxL
+    window.generateSignal = () => {
+      document.getElementById('wait-modal').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('wait-modal').style.display = 'none';
+        document.getElementById('res-time').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        document.getElementById('res-asset').innerText = selectedAsset;
+        document.getElementById('res-price').innerText = (Math.random() * 0.5 + 1.0).toFixed(4);
+        document.getElementById('result-modal').style.display = 'flex';
+      }, 2000);
+    };
+  </script>
+</body>
+  </html>
+      
